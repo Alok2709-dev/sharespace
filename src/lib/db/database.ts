@@ -10,7 +10,8 @@ export function getDatabase(): DatabaseSync {
     return dbInstance;
   }
 
-  const dataDir = path.join(process.cwd(), 'data');
+  const isServerless = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NETLIFY;
+  const dataDir = isServerless ? path.join('/tmp', 'data') : path.join(process.cwd(), 'data');
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
   }
@@ -27,6 +28,23 @@ export function getDatabase(): DatabaseSync {
   if (fs.existsSync(schemaPath)) {
     const schemaSql = fs.readFileSync(schemaPath, 'utf-8');
     db.exec(schemaSql);
+  } else {
+    // Fallback embedded schema DDL for serverless environments where static files may not be traced
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS institutions (id TEXT PRIMARY KEY, name TEXT NOT NULL, slug TEXT UNIQUE NOT NULL, domain TEXT NOT NULL, description TEXT, location TEXT, policy_settings TEXT NOT NULL DEFAULT '{}', created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, email TEXT UNIQUE NOT NULL, password_hash TEXT NOT NULL, full_name TEXT NOT NULL, role TEXT NOT NULL, institution_id TEXT, department TEXT, avatar_url TEXT, phone TEXT, status TEXT NOT NULL DEFAULT 'active', suspension_reason TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS sessions (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, token TEXT UNIQUE NOT NULL, expires_at DATETIME NOT NULL, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS resources (id TEXT PRIMARY KEY, title TEXT NOT NULL, slug TEXT UNIQUE NOT NULL, description TEXT NOT NULL, category TEXT NOT NULL, resource_type TEXT NOT NULL, institution_id TEXT NOT NULL, owner_id TEXT NOT NULL, location TEXT NOT NULL, images TEXT NOT NULL DEFAULT '[]', operating_hours TEXT NOT NULL DEFAULT '{}', min_duration_minutes INTEGER NOT NULL DEFAULT 30, max_duration_minutes INTEGER NOT NULL DEFAULT 480, lead_time_hours INTEGER NOT NULL DEFAULT 24, max_capacity INTEGER DEFAULT 1, deposit_amount REAL DEFAULT 0, usage_instructions TEXT, safety_instructions TEXT, supervision_required INTEGER NOT NULL DEFAULT 0, status TEXT NOT NULL DEFAULT 'active', created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS eligibility_requirements (id TEXT PRIMARY KEY, resource_id TEXT NOT NULL, requirement_type TEXT NOT NULL, title TEXT NOT NULL, description TEXT, is_mandatory INTEGER NOT NULL DEFAULT 1, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS eligibility_verifications (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, requirement_type TEXT NOT NULL, institution_id TEXT, status TEXT NOT NULL DEFAULT 'pending', verified_by TEXT, verification_notes TEXT, verification_document TEXT, expires_at DATETIME, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP, UNIQUE(user_id, requirement_type, institution_id));
+      CREATE TABLE IF NOT EXISTS bookings (id TEXT PRIMARY KEY, booking_reference TEXT UNIQUE NOT NULL, resource_id TEXT NOT NULL, user_id TEXT NOT NULL, purpose TEXT NOT NULL, project_name TEXT, start_time DATETIME NOT NULL, end_time DATETIME NOT NULL, status TEXT NOT NULL DEFAULT 'pending_approval', decision_reason TEXT, decided_by TEXT, decided_at DATETIME, cancellation_reason TEXT, cancelled_at DATETIME, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS waiting_list_entries (id TEXT PRIMARY KEY, resource_id TEXT NOT NULL, booking_id TEXT UNIQUE NOT NULL, user_id TEXT NOT NULL, position INTEGER NOT NULL, requested_start_time DATETIME NOT NULL, requested_end_time DATETIME NOT NULL, explanation TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'active', joined_at DATETIME DEFAULT CURRENT_TIMESTAMP, promoted_at DATETIME);
+      CREATE TABLE IF NOT EXISTS check_in_records (id TEXT PRIMARY KEY, booking_id TEXT UNIQUE NOT NULL, resource_id TEXT NOT NULL, user_id TEXT NOT NULL, conducted_by TEXT NOT NULL, handover_time DATETIME DEFAULT CURRENT_TIMESTAMP, initial_condition TEXT NOT NULL, accessories_included TEXT NOT NULL DEFAULT '[]', notes TEXT, image_urls TEXT NOT NULL DEFAULT '[]', user_acknowledged INTEGER NOT NULL DEFAULT 1, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS return_records (id TEXT PRIMARY KEY, booking_id TEXT UNIQUE NOT NULL, resource_id TEXT NOT NULL, user_id TEXT NOT NULL, conducted_by TEXT NOT NULL, return_time DATETIME DEFAULT CURRENT_TIMESTAMP, final_condition TEXT NOT NULL, accessories_returned TEXT NOT NULL DEFAULT '[]', condition_changed INTEGER NOT NULL DEFAULT 0, inspection_status TEXT NOT NULL DEFAULT 'passed', notes TEXT, image_urls TEXT NOT NULL DEFAULT '[]', created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS incidents (id TEXT PRIMARY KEY, incident_reference TEXT UNIQUE NOT NULL, booking_id TEXT, resource_id TEXT NOT NULL, reporter_id TEXT NOT NULL, category TEXT NOT NULL, severity TEXT NOT NULL DEFAULT 'medium', description TEXT NOT NULL, evidence_urls TEXT NOT NULL DEFAULT '[]', status TEXT NOT NULL DEFAULT 'open', assigned_to TEXT, resolution_notes TEXT, resolved_at DATETIME, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS notifications (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, type TEXT NOT NULL, title TEXT NOT NULL, message TEXT NOT NULL, link TEXT, is_read INTEGER NOT NULL DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE IF NOT EXISTS audit_events (id TEXT PRIMARY KEY, actor_id TEXT, actor_name TEXT NOT NULL, actor_role TEXT NOT NULL, action_type TEXT NOT NULL, entity_type TEXT NOT NULL, entity_id TEXT NOT NULL, prev_state TEXT, new_state TEXT, decision_reason TEXT, metadata TEXT DEFAULT '{}', ip_address TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+    `);
   }
 
   // Check if seeded

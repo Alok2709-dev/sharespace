@@ -190,71 +190,76 @@ export default async function HomePage() {
               const theme = categoryThemes[idx % categoryThemes.length];
 
               return (
-                <TiltCard key={res.id} tiltMaxAngle={6} scaleOnHover={1.025}>
-                  <Link
-                    href={`/resources/${res.id}`}
-                    className={`block w-full h-full cursor-pointer relative z-10 rounded-3xl ${theme.bgCard} border border-[#E7E1D3] hover:border-[#D0C5B0] transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-warm-md hover:shadow-warm-xl`}
-                  >
-                    <div>
-                      {/* Image Frame */}
-                      <div className="relative aspect-video w-full overflow-hidden p-3 pb-0">
-                        <div className="w-full h-full rounded-2xl overflow-hidden bg-white/50 relative">
-                          <img
-                            src={res.images[0] || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80'}
-                            alt={res.title}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute top-2.5 left-2.5">
-                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold border shadow-xs ${theme.badgeBg}`}>
-                              {theme.tag}
+                <Link
+                  key={res.id}
+                  href={`/resources/${res.id}`}
+                  className="block"
+                >
+                  <TiltCard tiltMaxAngle={6} scaleOnHover={1.025}>
+                    <div
+                      className={`rounded-3xl ${theme.bgCard} border border-[#E7E1D3] hover:border-[#D0C5B0] transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-warm-md hover:shadow-warm-xl`}
+                    >
+                      <div>
+                        {/* Image Frame */}
+                        <div className="relative aspect-video w-full overflow-hidden p-3 pb-0">
+                          <div className="w-full h-full rounded-2xl overflow-hidden bg-white/50 relative">
+                            <img
+                              src={res.images[0] || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80'}
+                              alt={res.title}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div className="absolute top-2.5 left-2.5">
+                              <span className={`px-3 py-1 rounded-full text-[10px] font-bold border shadow-xs ${theme.badgeBg}`}>
+                                {theme.tag}
+                              </span>
+                            </div>
+                            <div className="absolute top-2.5 right-2.5">
+                              <StatusBadge status={res.status} size="sm" />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Card Content */}
+                        <div className="p-5 space-y-2.5">
+                          <div className="flex items-center justify-between text-[11px] text-[#7C837C] font-semibold">
+                            <span>📍 {res.location.split(',')[0]}</span>
+                            <span>{res.lead_time_hours}h advance request</span>
+                          </div>
+
+                          <h3 className="font-editorial text-lg font-bold text-[#20231F] group-hover:text-[#4169E1] transition-colors line-clamp-1">
+                            {res.title}
+                          </h3>
+
+                          <p className="text-xs text-[#555B53] line-clamp-2 leading-relaxed">
+                            {res.description}
+                          </p>
+
+                          <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-medium text-[#555B53]">
+                            <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
+                              Max {Math.round(res.max_duration_minutes / 60)}h reservation
+                            </span>
+                            <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
+                              {res.deposit_amount > 0 ? `₹${Number(res.deposit_amount).toLocaleString('en-IN')} Deposit` : 'Free to Book'}
                             </span>
                           </div>
-                          <div className="absolute top-2.5 right-2.5">
-                            <StatusBadge status={res.status} size="sm" />
-                          </div>
                         </div>
                       </div>
 
-                      {/* Card Content */}
-                      <div className="p-5 space-y-2.5">
-                        <div className="flex items-center justify-between text-[11px] text-[#7C837C] font-semibold">
-                          <span>📍 {res.location.split(',')[0]}</span>
-                          <span>{res.lead_time_hours}h advance request</span>
-                        </div>
-
-                        <h3 className="font-editorial text-lg font-bold text-[#20231F] group-hover:text-[#4169E1] transition-colors line-clamp-1">
-                          {res.title}
-                        </h3>
-
-                        <p className="text-xs text-[#555B53] line-clamp-2 leading-relaxed">
-                          {res.description}
-                        </p>
-
-                        <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-medium text-[#555B53]">
-                          <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
-                            Max {Math.round(res.max_duration_minutes / 60)}h reservation
+                      {/* Card Bottom CTA */}
+                      <div className="p-5 pt-0">
+                        <div className="pt-3 border-t border-black/5 flex items-center justify-between text-xs">
+                          <span className="text-[#7C837C] font-medium text-[11px]">
+                            Managed by {res.owner_name.split(' ')[0]}
                           </span>
-                          <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
-                            {res.deposit_amount > 0 ? `₹${Number(res.deposit_amount).toLocaleString('en-IN')} Deposit` : 'Free to Book'}
+                          <span className="text-[#4169E1] font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                            <span>Check Availability</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
                           </span>
                         </div>
                       </div>
                     </div>
-
-                    {/* Card Bottom CTA */}
-                    <div className="p-5 pt-0">
-                      <div className="pt-3 border-t border-black/5 flex items-center justify-between text-xs">
-                        <span className="text-[#7C837C] font-medium text-[11px]">
-                          Managed by {res.owner_name.split(' ')[0]}
-                        </span>
-                        <span className="text-[#4169E1] font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                          <span>Check Availability</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </TiltCard>
+                  </TiltCard>
+                </Link>
               );
             })}
           </div>

@@ -248,81 +248,86 @@ export default function ResourcesPage() {
               const style = CATEGORY_STYLES[res.category] || { bg: 'bg-[#FFF8E6]', badge: 'bg-white text-[#9A5B00] border-[#FCE2A1]', accent: 'text-[#9A5B00]' };
 
               return (
-                <TiltCard key={res.id} tiltMaxAngle={5} scaleOnHover={1.02}>
-                  <Link
-                    href={`/resources/${res.id}`}
-                    className={`block w-full h-full cursor-pointer relative z-10 rounded-3xl ${style.bg} border border-[#E7E1D3] hover:border-[#D0C5B0] transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-warm-md hover:shadow-warm-xl`}
-                  >
-                    <div>
-                      {/* Image header */}
-                      <div className="relative aspect-video w-full overflow-hidden p-3 pb-0">
-                        <div className="w-full h-full rounded-2xl overflow-hidden bg-white/60 relative">
-                          <img
-                            src={coverImg}
-                            alt={res.title}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute top-2.5 left-2.5">
-                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border shadow-xs ${style.badge}`}>
-                              {res.category.split('&')[0]}
-                            </span>
-                          </div>
+                <Link
+                  key={res.id}
+                  href={`/resources/${res.id}`}
+                  className="block"
+                >
+                  <TiltCard tiltMaxAngle={5} scaleOnHover={1.02}>
+                    <div
+                      className={`rounded-3xl ${style.bg} border border-[#E7E1D3] hover:border-[#D0C5B0] transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-warm-md hover:shadow-warm-xl`}
+                    >
+                      <div>
+                        {/* Image header */}
+                        <div className="relative aspect-video w-full overflow-hidden p-3 pb-0">
+                          <div className="w-full h-full rounded-2xl overflow-hidden bg-white/60 relative">
+                            <img
+                              src={coverImg}
+                              alt={res.title}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div className="absolute top-2.5 left-2.5">
+                              <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border shadow-xs ${style.badge}`}>
+                                {res.category.split('&')[0]}
+                              </span>
+                            </div>
 
-                          <div className="absolute top-2.5 right-2.5">
-                            <StatusBadge status={res.status} size="sm" />
+                            <div className="absolute top-2.5 right-2.5">
+                              <StatusBadge status={res.status} size="sm" />
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Content */}
-                      <div className="p-5 space-y-2.5">
-                        <div className="flex items-center justify-between text-[11px] text-[#7C837C] font-semibold">
-                          <span className="capitalize">{res.resource_type}</span>
-                          <span>Cap: {res.max_capacity} operator{res.max_capacity > 1 ? 's' : ''}</span>
-                        </div>
+                        {/* Content */}
+                        <div className="p-5 space-y-2.5">
+                          <div className="flex items-center justify-between text-[11px] text-[#7C837C] font-semibold">
+                            <span className="capitalize">{res.resource_type}</span>
+                            <span>Cap: {res.max_capacity} operator{res.max_capacity > 1 ? 's' : ''}</span>
+                          </div>
 
-                        <h3 className="font-editorial text-lg font-bold text-[#20231F] group-hover:text-[#4169E1] transition-colors line-clamp-1">
-                          {res.title}
-                        </h3>
+                          <h3 className="font-editorial text-lg font-bold text-[#20231F] group-hover:text-[#4169E1] transition-colors line-clamp-1">
+                            {res.title}
+                          </h3>
 
-                        <p className="text-xs text-[#555B53] line-clamp-2 leading-relaxed">
-                          {res.description}
-                        </p>
+                          <p className="text-xs text-[#555B53] line-clamp-2 leading-relaxed">
+                            {res.description}
+                          </p>
 
-                        <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-semibold text-[#555B53]">
-                          <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
-                            Lead: {res.lead_time_hours}h
-                          </span>
-                          <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
-                            Max: {Math.round(res.max_duration_minutes / 60)}h
-                          </span>
-                          {res.deposit_amount > 0 ? (
+                          <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-semibold text-[#555B53]">
                             <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
-                              ₹{Number(res.deposit_amount).toLocaleString('en-IN')} Deposit
+                              Lead: {res.lead_time_hours}h
                             </span>
-                          ) : (
-                            <span className="px-2.5 py-1 rounded-full bg-[#EDFBF3] text-[#1E7E49] border border-[#B7ECCB]">
-                              Free to Book
+                            <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
+                              Max: {Math.round(res.max_duration_minutes / 60)}h
                             </span>
-                          )}
+                            {res.deposit_amount > 0 ? (
+                              <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
+                                ₹{Number(res.deposit_amount).toLocaleString('en-IN')} Deposit
+                              </span>
+                            ) : (
+                              <span className="px-2.5 py-1 rounded-full bg-[#EDFBF3] text-[#1E7E49] border border-[#B7ECCB]">
+                                Free to Book
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Bottom CTA Row */}
+                      <div className="p-5 pt-0">
+                        <div className="pt-3 border-t border-black/5 flex items-center justify-between text-xs">
+                          <span className="text-[#7C837C] font-medium text-[11px] truncate max-w-[150px]">
+                            📍 {res.location.split(',')[0]}
+                          </span>
+                          <span className="text-[#4169E1] font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                            <span>View Details</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
                         </div>
                       </div>
                     </div>
-
-                    {/* Bottom CTA Row */}
-                    <div className="p-5 pt-0">
-                      <div className="pt-3 border-t border-black/5 flex items-center justify-between text-xs">
-                        <span className="text-[#7C837C] font-medium text-[11px] truncate max-w-[150px]">
-                          📍 {res.location.split(',')[0]}
-                        </span>
-                        <span className="text-[#4169E1] font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                          <span>View Details</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </TiltCard>
+                  </TiltCard>
+                </Link>
               );
             })}
           </div>

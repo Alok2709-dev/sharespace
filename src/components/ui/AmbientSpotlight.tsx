@@ -7,7 +7,6 @@ export function AmbientSpotlight() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Only track if pointer is mouse (not touch)
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
     if (isTouch) return;
 
@@ -35,7 +34,7 @@ export function AmbientSpotlight() {
     <div
       className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300"
       style={{
-        background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(199, 255, 85, 0.04), transparent 80%)`,
+        background: `radial-gradient(650px circle at ${position.x}px ${position.y}px, rgba(255, 215, 106, 0.05), rgba(65, 105, 225, 0.02), transparent 75%)`,
       }}
     />
   );

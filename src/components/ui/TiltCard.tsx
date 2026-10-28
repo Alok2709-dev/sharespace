@@ -13,7 +13,7 @@ interface TiltCardProps {
 export function TiltCard({
   children,
   className = '',
-  tiltMaxAngle = 8,
+  tiltMaxAngle = 7,
   perspective = 1000,
   scaleOnHover = 1.02
 }: TiltCardProps) {
@@ -38,7 +38,7 @@ export function TiltCard({
     setGlarePosition({
       x: percentX * 100,
       y: percentY * 100,
-      opacity: 0.15
+      opacity: 0.12
     });
   };
 
@@ -70,10 +70,10 @@ export function TiltCard({
 
       {/* Dynamic Specular Sheen Glare */}
       <div
-        className="pointer-events-none absolute inset-0 rounded-inherit transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
         style={{
           opacity: glarePosition.opacity,
-          background: `radial-gradient(circle 280px at ${glarePosition.x}% ${glarePosition.y}%, rgba(199, 255, 85, 0.25), transparent 80%)`,
+          background: `radial-gradient(circle 320px at ${glarePosition.x}% ${glarePosition.y}%, rgba(255, 255, 255, 0.55), rgba(255, 215, 106, 0.15), transparent 75%)`,
           borderRadius: 'inherit'
         }}
       />

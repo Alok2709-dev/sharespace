@@ -81,7 +81,7 @@ export default function IncidentDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center py-24 text-zinc-500 font-mono text-xs">
+      <div className="flex-1 flex items-center justify-center py-24 text-zinc-500 font-medium text-sm">
         Loading incident dossier...
       </div>
     );
@@ -90,8 +90,8 @@ export default function IncidentDetailPage() {
   if (!incident) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center py-24 text-center space-y-4">
-        <h2 className="text-xl font-bold text-[#F4F5EF]">Incident Record Not Found</h2>
-        <Link href="/incidents" className="px-4 py-2 rounded bg-[#C7FF55] text-[#171A17] text-xs font-semibold">
+        <h2 className="text-xl font-black text-[#20231F]">Incident Record Not Found</h2>
+        <Link href="/incidents" className="px-5 py-2.5 rounded-xl bg-[#20231F] text-white text-xs font-bold hover:bg-[#3B66F5] transition-all shadow-sm">
           Return to Incidents
         </Link>
       </div>
@@ -101,61 +101,61 @@ export default function IncidentDetailPage() {
   const isReviewer = ['institution_manager', 'admin', 'owner'].includes(currentUser?.role);
 
   return (
-    <div className="flex-1 bg-[#0B0D0C] py-8">
+    <div className="flex-1 bg-[#F7F5EF] py-10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Breadcrumb */}
         <div className="flex items-center justify-between">
-          <Link href="/incidents" className="text-xs font-mono text-zinc-500 hover:text-white flex items-center gap-1">
-            <ArrowLeft className="w-3.5 h-3.5" />
+          <Link href="/incidents" className="text-xs font-bold text-zinc-500 hover:text-[#20231F] flex items-center gap-1.5">
+            <ArrowLeft className="w-4 h-4" />
             <span>All Incidents</span>
           </Link>
           <StatusBadge status={incident.status} />
         </div>
 
         {/* Incident Main Card */}
-        <div className="p-6 rounded-xl bg-[#131715] border border-[#2F3933] space-y-4">
-          <div className="space-y-1 pb-3 border-b border-[#212824]">
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-xs text-[#F17D78] font-bold">
+        <div className="p-8 rounded-3xl bg-white border border-[#EFE9DD] shadow-warm-md space-y-5">
+          <div className="space-y-1 pb-4 border-b border-[#EFE9DD]">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-rose-600 font-black bg-rose-50 px-2.5 py-0.5 rounded-lg border border-rose-100">
                 {incident.incident_reference}
               </span>
-              <span className="text-xs font-mono uppercase text-zinc-500">
+              <span className="text-xs uppercase font-bold text-zinc-400">
                 • {incident.category.replace('_', ' ')} • {incident.severity} severity
               </span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-[#F4F5EF]">
+            <h1 className="text-2xl sm:text-3xl font-black text-[#20231F] tracking-tight mt-1">
               {incident.resource_title}
             </h1>
-            <p className="text-xs text-zinc-400 font-mono">
+            <p className="text-xs text-zinc-500 font-medium">
               📍 {incident.resource_location}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
-            <div>
-              <span className="text-zinc-500 block">Reporter:</span>
-              <span className="text-zinc-200">{incident.reporter_name}</span>
-              <span className="text-zinc-500 block">{incident.reporter_email}</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div className="p-4 rounded-2xl bg-[#F7F5EF] border border-[#EFE9DD]">
+              <span className="text-zinc-400 font-bold uppercase text-[10px] block">Reporter:</span>
+              <span className="text-[#20231F] font-bold text-sm block mt-0.5">{incident.reporter_name}</span>
+              <span className="text-zinc-500 block text-xs">{incident.reporter_email}</span>
             </div>
 
-            <div>
-              <span className="text-zinc-500 block">Assigned Reviewer:</span>
-              <span className="text-zinc-200">{incident.reviewer_name || 'Unassigned (Open Queue)'}</span>
-              <span className="text-zinc-500 block">Filed on: {incident.created_at}</span>
+            <div className="p-4 rounded-2xl bg-[#F7F5EF] border border-[#EFE9DD]">
+              <span className="text-zinc-400 font-bold uppercase text-[10px] block">Assigned Reviewer:</span>
+              <span className="text-[#20231F] font-bold text-sm block mt-0.5">{incident.reviewer_name || 'Unassigned (Open Queue)'}</span>
+              <span className="text-zinc-500 block text-xs">Filed on: {incident.created_at}</span>
             </div>
           </div>
 
           <div>
-            <span className="text-zinc-500 font-mono text-xs block mb-1">Incident Description:</span>
-            <div className="p-4 rounded-lg bg-[#0B0D0C] border border-[#212824] text-xs text-zinc-200 leading-relaxed">
+            <span className="text-zinc-400 font-bold uppercase text-[10px] block mb-1.5">Incident Description:</span>
+            <div className="p-4 rounded-2xl bg-[#F7F5EF] border border-[#EFE9DD] text-xs text-zinc-700 leading-relaxed font-medium">
               {incident.description}
             </div>
           </div>
 
           {incident.booking_reference && (
-            <div className="pt-2 text-xs font-mono text-zinc-400 flex items-center justify-between">
-              <span>Related Booking: <strong>{incident.booking_reference}</strong></span>
-              <Link href={`/bookings/${incident.booking_id}`} className="text-[#C7FF55] hover:underline">
+            <div className="pt-2 text-xs text-zinc-500 flex items-center justify-between">
+              <span>Related Booking: <strong className="text-[#20231F]">{incident.booking_reference}</strong></span>
+              <Link href={`/bookings/${incident.booking_id}`} className="text-[#3B66F5] font-bold hover:underline">
                 View Associated Booking Record &rarr;
               </Link>
             </div>
@@ -164,30 +164,32 @@ export default function IncidentDetailPage() {
 
         {/* Human-in-the-Loop Resolution Section */}
         {isReviewer && (
-          <div className="p-6 rounded-xl bg-[#131715] border border-[#212824] space-y-4">
-            <h2 className="text-sm font-bold text-[#F4F5EF] flex items-center gap-2">
-              <Shield className="w-4 h-4 text-[#C7FF55]" />
-              <span>Human Oversight & Investigation Decisions</span>
-            </h2>
-            <p className="text-xs text-zinc-400">
-              In accordance with platform safety policies, consequential incident resolutions require authorized human investigator review.
-            </p>
+          <div className="p-8 rounded-3xl bg-white border border-[#EFE9DD] shadow-warm-md space-y-5">
+            <div>
+              <h2 className="text-base font-bold text-[#20231F] flex items-center gap-2">
+                <Shield className="w-5 h-5 text-[#3B66F5]" />
+                <span>Human Oversight & Investigation Decisions</span>
+              </h2>
+              <p className="text-xs text-zinc-500 font-medium mt-1">
+                In accordance with platform safety policies, consequential incident resolutions require authorized human investigator review.
+              </p>
+            </div>
 
             {message && (
-              <div className="p-3 text-xs bg-[#12241A] border border-[#224A33] text-[#78D9A0] rounded-lg">
+              <div className="p-4 text-xs bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl font-bold">
                 {message}
               </div>
             )}
 
-            <form onSubmit={handleStatusUpdate} className="space-y-4 pt-2">
+            <form onSubmit={handleStatusUpdate} className="space-y-4 pt-1">
               <div>
-                <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+                <label className="block text-xs font-bold uppercase text-zinc-500 mb-1.5">
                   Investigation Status
                 </label>
                 <select
                   value={status}
                   onChange={e => setStatus(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#0B0D0C] border border-[#2F3933] text-xs text-[#F4F5EF]"
+                  className="w-full px-4 py-3 rounded-xl bg-[#F7F5EF] border border-[#EFE9DD] text-xs font-medium text-[#20231F] focus:outline-none focus:ring-2 focus:ring-[#3B66F5]"
                 >
                   <option value="under_review">Under Review (Investigator Active)</option>
                   <option value="awaiting_information">Awaiting Information from Seeker</option>
@@ -197,7 +199,7 @@ export default function IncidentDetailPage() {
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+                <label className="block text-xs font-bold uppercase text-zinc-500 mb-1.5">
                   Resolution Findings & Action Plan *
                 </label>
                 <textarea
@@ -206,7 +208,7 @@ export default function IncidentDetailPage() {
                   value={resolutionNotes}
                   onChange={e => setResolutionNotes(e.target.value)}
                   placeholder="Document findings, replacement parts sourced, or confirmed non-damage..."
-                  className="w-full px-3 py-2 rounded-lg bg-[#0B0D0C] border border-[#2F3933] text-xs text-[#F4F5EF] focus:border-[#C7FF55] focus:outline-none"
+                  className="w-full px-4 py-3 rounded-xl bg-[#F7F5EF] border border-[#EFE9DD] text-xs font-medium text-[#20231F] focus:outline-none focus:ring-2 focus:ring-[#3B66F5]"
                 />
               </div>
 
@@ -214,9 +216,9 @@ export default function IncidentDetailPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 rounded-lg bg-[#C7FF55] text-[#171A17] font-bold text-xs hover:bg-[#b5f23d] transition-colors flex items-center gap-1.5"
+                  className="px-6 py-2.5 rounded-xl bg-[#3B66F5] text-white font-bold text-xs hover:bg-blue-600 shadow-md shadow-blue-500/20 transition-all flex items-center gap-2"
                 >
-                  {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                  {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
                   <span>Save Review Decision & Update Ledger</span>
                 </button>
               </div>

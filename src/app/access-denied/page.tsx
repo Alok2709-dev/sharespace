@@ -4,22 +4,24 @@ import { ShieldAlert, ArrowLeft } from 'lucide-react';
 
 export default function AccessDeniedPage() {
   return (
-    <div className="flex-1 bg-[#0B0D0C] flex items-center justify-center p-4 py-20 text-center">
-      <div className="max-w-md space-y-4 p-8 rounded-xl bg-[#131715] border border-[#212824]">
-        <div className="w-12 h-12 rounded-full bg-red-950/40 border border-red-800 text-red-400 flex items-center justify-center mx-auto">
-          <ShieldAlert className="w-6 h-6" />
+    <div className="flex-1 bg-[#F7F5EF] flex items-center justify-center p-4 py-24 text-center">
+      <div className="max-w-md space-y-5 p-8 rounded-2xl bg-white border border-[#EFE9DD] shadow-warm-md">
+        <div className="w-14 h-14 rounded-2xl bg-rose-50 border border-rose-200 text-rose-500 flex items-center justify-center mx-auto shadow-sm">
+          <ShieldAlert className="w-7 h-7" />
         </div>
-        <h1 className="text-2xl font-bold text-[#F4F5EF]">Access Restricted</h1>
-        <p className="text-xs text-zinc-400 leading-relaxed">
-          Your current account role does not have authorization to access this administrative or custodial endpoint. Access decisions are strictly enforced on the server.
-        </p>
+        <div className="space-y-2">
+          <h1 className="text-2xl font-black text-[#20231F] tracking-tight">Access Restricted</h1>
+          <p className="text-sm text-zinc-500 leading-relaxed font-medium">
+            Your current account role does not have authorization to view this section. Use the Demo Switcher bar above to quickly switch personas (e.g. Lab Manager or Auditor).
+          </p>
+        </div>
         <div className="pt-2">
           <Link
             href="/dashboard"
-            className="px-4 py-2 rounded-lg bg-[#191F1B] border border-[#2F3933] text-xs font-semibold text-[#C7FF55] hover:bg-[#232B26] inline-flex items-center gap-1.5"
+            className="px-5 py-2.5 rounded-xl bg-[#20231F] text-white text-xs font-bold hover:bg-[#3B66F5] transition-all inline-flex items-center gap-2 shadow-sm"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Return to User Dashboard</span>
+            <ArrowLeft className="w-4 h-4" />
+            <span>Return to Dashboard</span>
           </Link>
         </div>
       </div>

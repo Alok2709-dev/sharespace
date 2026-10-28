@@ -50,7 +50,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
     setConflictMessage(null);
 
     if (!agreeSafety) {
-      setError('You must acknowledge the operating guidelines and safety protocols to request access.');
+      setError('Please acknowledge the operating guidelines and safety protocols to continue.');
       return;
     }
 
@@ -80,7 +80,6 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
       }
 
       setSuccessData(data);
-      // Trigger joyful celebratory confetti
       fireSuccessConfetti();
       if (onSuccess) onSuccess();
     } catch (err: any) {
@@ -91,46 +90,43 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-xl bg-[#111613] border border-[#27352B] rounded-3xl shadow-2xl overflow-hidden">
-        {/* Ambient Top Glow */}
-        <div className="absolute top-0 right-0 w-64 h-32 bg-[#C7FF55]/10 rounded-full blur-2xl pointer-events-none" />
-
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="relative w-full max-w-xl bg-white border border-[#E7E1D3] rounded-3xl shadow-warm-xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-[#1E2721] bg-[#141A16]">
+        <div className="flex items-center justify-between px-7 py-5 border-b border-[#EFE9DD] bg-[#F7F5EF]">
           <div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#C7FF55]" />
-              <h3 className="text-base font-bold text-[#F4F5EF]">
-                {conflictDetected ? 'Join Transparent Waiting List' : 'Request Resource Reservation'}
+              <span className="w-2.5 h-2.5 rounded-full bg-[#4169E1]" />
+              <h3 className="font-editorial text-lg font-bold text-[#20231F]">
+                {conflictDetected ? 'Join Transparent Waiting List' : 'Reserve Resource'}
               </h3>
             </div>
-            <p className="text-xs text-[#9BA39B] mt-0.5">{resource.title}</p>
+            <p className="text-xs text-[#7C837C] mt-0.5">{resource.title}</p>
           </div>
           <button 
             onClick={onClose} 
-            className="p-1.5 rounded-xl bg-[#1A221D] text-zinc-400 hover:text-white border border-[#27352B] transition-colors"
+            className="p-2 rounded-full bg-white text-[#7C837C] hover:text-[#20231F] border border-[#E7E1D3] transition-colors shadow-xs"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 max-h-[80vh] overflow-y-auto">
+        <div className="p-7 max-h-[80vh] overflow-y-auto">
           {successData ? (
             <div className="text-center py-6 space-y-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#1E2E23] to-[#121E16] border border-[#C7FF55]/30 text-[#C7FF55] flex items-center justify-center mx-auto shadow-[0_0_25px_rgba(199,255,85,0.2)]">
+              <div className="w-16 h-16 rounded-full bg-[#EDFBF3] border border-[#B7ECCB] text-[#22C55E] flex items-center justify-center mx-auto shadow-sm">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h4 className="text-xl font-bold text-[#F4F5EF]">
+              <h4 className="font-editorial text-2xl font-bold text-[#20231F]">
                 {successData.status === 'waitlisted' ? 'Added to Transparent Waitlist!' : 'Reservation Request Recorded!'}
               </h4>
-              <p className="text-xs text-zinc-400 max-w-md mx-auto leading-relaxed">
+              <p className="text-xs text-[#555B53] max-w-md mx-auto leading-relaxed">
                 {successData.status === 'waitlisted'
                   ? successData.explanation
-                  : `Your request reference ${successData.refNumber} is logged in the permanent ledger and routed to custodian ${resource.owner_name} for formal authorization.`}
+                  : `Your request reference ${successData.refNumber} is logged and routed to custodian ${resource.owner_name} for approval.`}
               </p>
-              <div className="p-3 bg-[#0B0F0D] rounded-xl border border-[#202B24] inline-block font-mono text-xs text-[#C7FF55] shadow-inner">
+              <div className="p-3 bg-[#FAF7F2] rounded-2xl border border-[#E7E1D3] inline-block font-mono text-xs text-[#4169E1] font-bold">
                 Reference: {successData.refNumber}
               </div>
               <div className="pt-4 flex justify-center gap-3">
@@ -139,7 +135,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                     onClose();
                     router.push('/my-bookings');
                   }}
-                  className="px-6 py-3 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-all shadow-[0_0_20px_rgba(199,255,85,0.25)] flex items-center gap-2"
+                  className="px-7 py-3 rounded-full bg-[#4169E1] text-white font-bold text-xs hover:bg-[#3256c9] transition-all shadow-color-cobalt flex items-center gap-2"
                 >
                   <span>View My Bookings</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -150,10 +146,10 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
             <form onSubmit={e => handleSubmit(e, false)} className="space-y-4">
               {/* Ineligibility Warning if applicable */}
               {!isEligible && (
-                <div className="p-3.5 rounded-xl bg-red-950/40 border border-red-800 text-xs text-red-200 flex items-start gap-2.5">
-                  <ShieldAlert className="w-4 h-4 shrink-0 text-red-400 mt-0.5" />
+                <div className="p-4 rounded-2xl bg-[#FFF0F0] border border-[#FDC2C2] text-xs text-[#C92A2A] flex items-start gap-3">
+                  <ShieldAlert className="w-4 h-4 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="block text-red-100 font-semibold mb-0.5">Eligibility Requirement Notice</strong>
+                    <strong className="block font-bold mb-0.5">Eligibility Requirement Notice</strong>
                     <span>You are currently missing verified prerequisite certifications for this high-consequence resource. Your request cannot be processed until credentials are authenticated.</span>
                   </div>
                 </div>
@@ -161,20 +157,20 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
 
               {/* Conflict notice with Fair FIFO Queue action */}
               {conflictDetected && (
-                <div className="p-4 rounded-xl bg-[#292212] border border-[#4E3E1C] text-xs text-[#F0BE67] space-y-2.5">
-                  <div className="flex items-center gap-2 font-semibold text-amber-200">
+                <div className="p-4 rounded-2xl bg-[#FFF8E6] border border-[#FCE2A1] text-xs text-[#A36200] space-y-2.5">
+                  <div className="flex items-center gap-2 font-bold">
                     <AlertTriangle className="w-4 h-4 shrink-0" />
                     <span>Slot Busy: Transparent Fair-Allocation Queue</span>
                   </div>
-                  <p className="text-[11px] text-zinc-300 leading-relaxed">{conflictMessage}</p>
-                  <p className="text-[11px] text-zinc-400">
+                  <p className="text-[11px] leading-relaxed text-[#7A4B00]">{conflictMessage}</p>
+                  <p className="text-[11px] text-[#A36200]">
                     ShareSpace guarantees non-discriminatory FIFO queueing. Would you like to enter position in the waiting list? If the slot opens, your request is automatically promoted.
                   </p>
                   <button
                     type="button"
                     onClick={e => handleSubmit(e, true)}
                     disabled={loading}
-                    className="w-full mt-2 py-2.5 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-colors shadow-sm"
+                    className="w-full mt-2 py-3 rounded-full bg-[#4169E1] text-white font-bold text-xs hover:bg-[#3256c9] transition-colors shadow-xs"
                   >
                     Confirm & Enter Waiting List
                   </button>
@@ -182,7 +178,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
               )}
 
               {error && (
-                <div className="p-3 rounded-xl bg-red-950/40 border border-red-800 text-xs text-red-200">
+                <div className="p-3.5 rounded-2xl bg-[#FFF0F0] border border-[#FDC2C2] text-xs text-[#C92A2A]">
                   {error}
                 </div>
               )}
@@ -190,7 +186,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
               {/* Date & Time Selectors */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1.5 font-medium">
+                  <label className="block text-[11px] font-bold text-[#7C837C] uppercase tracking-wider mb-1.5">
                     Start Date & Time *
                   </label>
                   <input
@@ -198,11 +194,11 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                     required
                     value={startTime}
                     onChange={e => setStartTime(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090C0A] border border-[#232F26] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-2xl bg-[#FAF7F2] border border-[#E7E1D3] text-[#20231F] text-xs focus:border-[#4169E1] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1.5 font-medium">
+                  <label className="block text-[11px] font-bold text-[#7C837C] uppercase tracking-wider mb-1.5">
                     End Date & Time *
                   </label>
                   <input
@@ -210,71 +206,71 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                     required
                     value={endTime}
                     onChange={e => setEndTime(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090C0A] border border-[#232F26] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-2xl bg-[#FAF7F2] border border-[#E7E1D3] text-[#20231F] text-xs focus:border-[#4169E1] focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="text-[11px] text-zinc-500 font-mono">
-                Duration limits: Min {resource.min_duration_minutes}m • Max {resource.max_duration_minutes}m • Lead-time: {resource.lead_time_hours}h
+              <div className="text-[11px] text-[#7C837C]">
+                Limits: Min {resource.min_duration_minutes}m • Max {resource.max_duration_minutes}m • Notice: {resource.lead_time_hours}h
               </div>
 
-              {/* Research Project & Purpose */}
+              {/* Project & Purpose */}
               <div>
-                <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1.5 font-medium">
-                  Research Project / Grant (Optional)
+                <label className="block text-[11px] font-bold text-[#7C837C] uppercase tracking-wider mb-1.5">
+                  Project or Course Name (Optional)
                 </label>
                 <input
                   type="text"
                   value={projectName}
                   onChange={e => setProjectName(e.target.value)}
-                  placeholder="e.g. Hypersonic Aero-Structures / NSF Grant #892"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090C0A] border border-[#232F26] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none transition-colors"
+                  placeholder="e.g. Senior Capstone Video / Acoustic Levitation Experiment"
+                  className="w-full px-3.5 py-2.5 rounded-2xl bg-[#FAF7F2] border border-[#E7E1D3] text-[#20231F] text-xs focus:border-[#4169E1] focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1.5 font-medium">
-                  Intended Research Purpose & Setup Details *
+                <label className="block text-[11px] font-bold text-[#7C837C] uppercase tracking-wider mb-1.5">
+                  Intended Purpose & Use Details *
                 </label>
                 <textarea
                   required
                   rows={3}
                   value={purpose}
                   onChange={e => setPurpose(e.target.value)}
-                  placeholder="Describe your specimen, planned toolpaths, or analytical protocols. Custodians review this for authorization."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090C0A] border border-[#232F26] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none transition-colors"
+                  placeholder="Tell the custodian what you plan to create or test..."
+                  className="w-full px-3.5 py-2.5 rounded-2xl bg-[#FAF7F2] border border-[#E7E1D3] text-[#20231F] text-xs focus:border-[#4169E1] focus:outline-none transition-colors"
                 />
               </div>
 
               {/* Safety Acknowledgment */}
               <div className="pt-1">
-                <label className="flex items-start gap-2.5 text-xs text-zinc-300 cursor-pointer p-3 rounded-xl bg-[#0E1310] border border-[#1E2721]">
+                <label className="flex items-start gap-2.5 text-xs text-[#555B53] cursor-pointer p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#E7E1D3]">
                   <input
                     type="checkbox"
                     checked={agreeSafety}
                     onChange={e => setAgreeSafety(e.target.checked)}
-                    className="mt-0.5 rounded bg-[#090C0A] border-[#253229] text-[#C7FF55] focus:ring-0"
+                    className="mt-0.5 rounded text-[#4169E1] focus:ring-0"
                   />
                   <span>
-                    I acknowledge that I have reviewed the safety instructions, will follow decontamination and cleanup procedures, and agree to physical inspection upon return.
+                    I confirm that I will follow operating instructions, care for the equipment, and complete the check-in and return inspection with the custodian.
                   </span>
                 </label>
               </div>
 
               {/* Actions */}
-              <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#1E2721]">
+              <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#EFE9DD]">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 text-xs text-zinc-400 hover:text-white"
+                  className="px-5 py-2.5 text-xs font-semibold text-[#7C837C] hover:text-[#20231F]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading || !isEligible}
-                  className="px-6 py-3 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-all disabled:opacity-50 flex items-center gap-2 shadow-[0_0_15px_rgba(199,255,85,0.2)] active:scale-95"
+                  className="px-7 py-3 rounded-full bg-[#4169E1] text-white font-bold text-xs hover:bg-[#3256c9] transition-all disabled:opacity-50 flex items-center gap-2 shadow-color-cobalt active:scale-95"
                 >
                   {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Submit Reservation Request</span>

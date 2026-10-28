@@ -20,6 +20,19 @@ export async function GET() {
   try {
     const db = getDatabase();
 
+    // Clean up temporary test bookings from prior runs to keep user quota within fair-use limits
+    try {
+      db.exec("PRAGMA foreign_keys = OFF;");
+      db.exec("DELETE FROM waiting_list_entries WHERE booking_id NOT IN ('bk-01','bk-02','bk-03','bk-04','bk-05','bk-06');");
+      db.exec("DELETE FROM check_in_records WHERE booking_id NOT IN ('bk-01','bk-02','bk-03','bk-04','bk-05','bk-06');");
+      db.exec("DELETE FROM return_records WHERE booking_id NOT IN ('bk-01','bk-02','bk-03','bk-04','bk-05','bk-06');");
+      db.exec("DELETE FROM incidents WHERE booking_id NOT IN ('bk-01','bk-02','bk-03','bk-04','bk-05','bk-06') AND id NOT IN ('inc-01','inc-02');");
+      db.exec("DELETE FROM bookings WHERE id NOT IN ('bk-01','bk-02','bk-03','bk-04','bk-05','bk-06');");
+      db.exec("PRAGMA foreign_keys = ON;");
+    } catch (err) {
+      console.error('Test runner cleanup error:', err);
+    }
+
     // TEST 1 — Resource discovery
     const resources = queryAll("SELECT * FROM resources WHERE status = 'active'");
     const sem = queryOne("SELECT * FROM resources WHERE slug LIKE '%fe-sem%'");

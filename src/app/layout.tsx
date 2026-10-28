@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SHARESPACE — Institutional Resource-Sharing and Lifecycle Management",
-  description: "Access More. Own Less. Trusted digital infrastructure network allowing institutions, laboratories, and makerspaces to safely share and track technical resources.",
+  title: "SHARESPACE — Good stuff should get shared",
+  description: "From cameras and creative gear to study rooms and lab essentials — find what you need, share what you have, and make more happen together.",
 };
 
 export default function RootLayout({
@@ -31,7 +31,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#080908] text-[#F4F5EF] selection:bg-[#C7FF55] selection:text-black">
+      <body className="min-h-full flex flex-col bg-[#F7F5EF] text-[#20231F] selection:bg-[#FFD76A] selection:text-[#20231F]">
         <AmbientSpotlight />
         <DemoSwitcher />
         <Navbar />

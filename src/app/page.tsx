@@ -10,19 +10,18 @@ import {
   Users,
   Compass,
   FileCheck,
-  AlertCircle,
-  Database,
-  ExternalLink,
-  Cpu,
-  Activity,
-  ChevronRight,
-  Fingerprint,
-  Sliders,
-  Award
+  Camera,
+  Laptop,
+  BookOpen,
+  Calendar,
+  Share2,
+  PlusCircle,
+  Heart,
+  ChevronRight
 } from 'lucide-react';
 import { queryAll } from '@/lib/db/database';
 import { StatusBadge } from '@/components/ui/Badge';
-import { HeroVisual3D } from '@/components/3d/HeroVisual3D';
+import { PlayfulHeroVisual } from '@/components/3d/PlayfulHeroVisual';
 import { TiltCard } from '@/components/ui/TiltCard';
 
 export default async function HomePage() {
@@ -39,398 +38,367 @@ export default async function HomePage() {
     images: JSON.parse(r.images || '[]')
   }));
 
-  const stats = [
-    { label: 'Active Core Instruments', value: '12', sub: 'Verified & Calibrated' },
-    { label: 'Audit Trail Integrity', value: '100%', sub: 'Immutable Server Ledger' },
-    { label: 'Scheduling Conflict Rate', value: '0.0%', sub: 'Transactional Locks' },
-    { label: 'Dual-Party Inspections', value: '100%', sub: 'Pre & Post Checkout' }
+  const categoryThemes = [
+    {
+      category: 'Media & Optics',
+      bgCard: 'bg-[#FFF0E8]',
+      badgeBg: 'bg-white text-[#D9531E] border-[#FFD2BC]',
+      accentBtn: 'hover:bg-[#FF7A45] hover:text-white',
+      tag: 'Creative & Video'
+    },
+    {
+      category: 'Microscopy & Imaging',
+      bgCard: 'bg-[#EEF4FF]',
+      badgeBg: 'bg-white text-[#2550C0] border-[#BDD5FF]',
+      accentBtn: 'hover:bg-[#4169E1] hover:text-white',
+      tag: 'Science & Optics'
+    },
+    {
+      category: 'Additive Manufacturing',
+      bgCard: 'bg-[#F4EFFF]',
+      badgeBg: 'bg-white text-[#6941C6] border-[#D9C8FF]',
+      accentBtn: 'hover:bg-[#8A63D2] hover:text-white',
+      tag: 'Prototyping & 3D'
+    }
+  ];
+
+  const highlights = [
+    { label: 'Available Core Resources', value: '12', sub: 'Cameras, Labs & Studios' },
+    { label: 'Fair Waitlist Guarantee', value: '100%', sub: 'FIFO Automatic Queueing' },
+    { label: 'Scheduling Conflicts', value: '0.0%', sub: 'Real-time Time-slot Locks' },
+    { label: 'Verified Handovers', value: '100%', sub: 'Easy Check-in & Return' }
   ];
 
   return (
-    <div className="flex flex-col flex-1 overflow-hidden">
-      {/* 1. HERO SECTION WITH 3D INTERACTIVE VISUAL */}
-      <section className="relative pt-12 pb-20 md:pt-20 md:pb-28 border-b border-[#1E2621] overflow-hidden bg-gradient-to-b from-[#0F1411] via-[#080908] to-[#080908]">
-        {/* Subtle architectural grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#161E19_1px,transparent_1px),linear-gradient(to_bottom,#161E19_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none" />
-
-        {/* Ambient Top Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-b from-[#C7FF55]/12 to-transparent blur-3xl pointer-events-none -z-10" />
+    <div className="flex flex-col flex-1 bg-[#F7F5EF] text-[#20231F] overflow-hidden">
+      {/* 1. PLAYFUL & WARM HERO SECTION */}
+      <section className="relative pt-12 pb-20 md:pt-20 md:pb-28 border-b border-[#E7E1D3] overflow-hidden bg-[#F7F5EF]">
+        {/* Soft Organic Warm Pastel Blobs */}
+        <div className="absolute top-0 right-1/4 w-[480px] h-[340px] bg-[#FFEBDD] rounded-full blur-3xl opacity-70 pointer-events-none -z-10" />
+        <div className="absolute top-20 left-10 w-[360px] h-[360px] bg-[#EEF4FF] rounded-full blur-3xl opacity-60 pointer-events-none -z-10" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Column: Expressive Editorial Copy */}
+            {/* Left Column: Expressive Warm Editorial Copy */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#141C16] border border-[#27352B] text-xs font-mono text-[#C7FF55] shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-[#C7FF55] animate-ping" />
-                <span className="font-semibold tracking-wider uppercase text-[11px]">
-                  Institutional Infrastructure Network
-                </span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#E7E1D3] text-xs font-bold text-[#FF7A45] shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-[#FF7A45] animate-ping" />
+                <span>The Community Resource-Sharing Network</span>
               </div>
 
-              <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#F4F5EF] leading-[1.04]">
-                Great resources <br />
-                <span className="text-gradient-accent">shouldn't sit idle.</span>
+              <h1 className="font-editorial text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#20231F] leading-[1.04]">
+                Good stuff should <br />
+                <span className="text-[#4169E1] underline decoration-[#FFD76A] decoration-wavy decoration-from-font">
+                  get shared.
+                </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-[#9BA39B] max-w-2xl leading-relaxed">
-                Discover the high-end laboratories, cleanrooms, and fabrication equipment around you. 
-                Share responsibly, allocate through fair FIFO queues, and ensure every physical handover is tamper-proof.
+              <p className="text-base sm:text-lg text-[#555B53] max-w-2xl leading-relaxed font-sans">
+                From cameras and creative equipment to study spaces and lab essentials — find what you need, share what you have, and make more happen together.
               </p>
 
-              {/* Action Buttons with High-End Styling */}
+              {/* Action Buttons */}
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Link
                   href="/resources"
-                  className="px-7 py-4 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-sm hover:bg-[#b5f23d] transition-all flex items-center gap-2.5 shadow-[0_0_25px_rgba(199,255,85,0.25)] hover:shadow-[0_0_35px_rgba(199,255,85,0.4)] active:scale-98 group"
+                  className="px-8 py-4 rounded-full bg-[#4169E1] text-white font-bold text-sm hover:bg-[#3256c9] transition-all flex items-center gap-2.5 shadow-color-cobalt active:scale-95 group"
                 >
-                  <span>Explore 12 Core Resources</span>
+                  <span>Explore resources</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </Link>
 
                 <Link
-                  href="/how-it-works"
-                  className="px-6 py-4 rounded-xl bg-[#141A16] hover:bg-[#1E2621] border border-[#27352B] text-sm font-semibold text-[#F4F5EF] transition-all active:scale-98 flex items-center gap-2"
+                  href="/owner/resources/new"
+                  className="px-7 py-4 rounded-full bg-white hover:bg-[#EFE9DD] border border-[#DCD5C4] text-sm font-bold text-[#20231F] transition-all active:scale-95 flex items-center gap-2 shadow-xs"
                 >
-                  <span>Architecture Guide</span>
-                  <ChevronRight className="w-4 h-4 text-zinc-500" />
+                  <PlusCircle className="w-4 h-4 text-[#FF7A45]" />
+                  <span>Share something</span>
                 </Link>
               </div>
 
-              {/* Micro specs ticker */}
-              <div className="pt-4 flex flex-wrap items-center gap-6 text-xs font-mono text-zinc-500 border-t border-[#1C241E]">
+              {/* Value Badges */}
+              <div className="pt-6 flex flex-wrap items-center gap-6 text-xs text-[#555B53] font-medium border-t border-[#E7E1D3]">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C7FF55]" />
-                  <span>Prerequisite Training Gating</span>
+                  <span className="w-5 h-5 rounded-full bg-[#EDFBF3] text-[#22C55E] flex items-center justify-center font-bold text-xs">✓</span>
+                  <span>Free & verified campus gear</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C7FF55]" />
-                  <span>Explainable FIFO Waiting Lists</span>
+                  <span className="w-5 h-5 rounded-full bg-[#EFF5FF] text-[#4169E1] flex items-center justify-center font-bold text-xs">✓</span>
+                  <span>Fair waitlists for everyone</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C7FF55]" />
-                  <span>Dual Condition Checklists</span>
+                  <span className="w-5 h-5 rounded-full bg-[#FFF0E8] text-[#FF7A45] flex items-center justify-center font-bold text-xs">✓</span>
+                  <span>Two-party condition check-in</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Interactive 3D Holographic Visual */}
+            {/* Right Column: Playful Interactive 3D / Floating Composition */}
             <div className="lg:col-span-5 relative flex items-center justify-center">
-              <div className="w-full relative rounded-2xl bg-gradient-to-b from-[#131915]/60 to-[#0A0D0B] border border-[#243128] p-2 shadow-2xl backdrop-blur-sm">
-                <HeroVisual3D />
-              </div>
+              <PlayfulHeroVisual />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. STATS & ARCHITECTURAL METRICS BAR */}
-      <section className="border-b border-[#1E2621] bg-[#0C100E] py-8">
+      {/* 2. STATS & COMMUNITY COUNTER BAR */}
+      <section className="border-b border-[#E7E1D3] bg-[#EFE9DD]/60 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((st, i) => (
-              <div key={i} className="space-y-1">
-                <div className="font-mono text-2xl sm:text-3xl font-extrabold text-[#C7FF55] tracking-tight">
+            {highlights.map((st, i) => (
+              <div key={i} className="p-4 rounded-2xl bg-white/70 border border-[#E7E1D3] shadow-xs space-y-1">
+                <div className="font-editorial text-3xl sm:text-4xl font-extrabold text-[#4169E1]">
                   {st.value}
                 </div>
-                <div className="text-xs font-semibold text-[#F4F5EF]">{st.label}</div>
-                <div className="text-[11px] font-mono text-zinc-500">{st.sub}</div>
+                <div className="text-xs font-bold text-[#20231F]">{st.label}</div>
+                <div className="text-[11px] text-[#7C837C] font-medium">{st.sub}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 3. FEATURED RESOURCES SHOWCASE WITH 3D TILT CARDS */}
-      <section className="py-20 md:py-28 border-b border-[#1E2621] bg-[#080908] relative">
+      {/* 3. FEATURED CURATED RESOURCES WITH COLORFUL CARD IDENTITIES */}
+      <section className="py-20 md:py-28 border-b border-[#E7E1D3] bg-[#F7F5EF] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#141C16] border border-[#27352B] text-[11px] font-mono text-[#C7FF55] uppercase tracking-wider">
-                <Cpu className="w-3.5 h-3.5" />
-                <span>Verified Laboratory Assets</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFF5FF] text-xs font-bold text-[#4169E1] border border-[#BDD5FF]">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Featured On Campus</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#F4F5EF]">
-                Engineered for High-Stakes Research
+              <h2 className="font-editorial text-3xl sm:text-4xl font-bold tracking-tight text-[#20231F]">
+                Popular gear & spaces ready for you
               </h2>
-              <p className="text-sm text-zinc-400 max-w-xl">
-                Real instruments backed by operational safety rules, lead-time protocols, and institutional supervision.
+              <p className="text-sm text-[#555B53] max-w-xl font-sans">
+                Real tools and creative setups shared by campus departments, student makerspaces, and verified faculty.
               </p>
             </div>
 
             <Link
               href="/resources"
-              className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-[#C7FF55] hover:underline"
+              className="inline-flex items-center gap-2 text-xs font-bold text-[#4169E1] hover:underline"
             >
-              <span>View all 12 resources in catalog</span>
+              <span>Explore all 12 items in catalog</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          {/* 3D Interactive Resource Cards Grid */}
+          {/* Curated Colorful Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredResources.map(res => (
-              <TiltCard key={res.id} tiltMaxAngle={7} scaleOnHover={1.025}>
-                <Link
-                  href={`/resources/${res.id}`}
-                  className="block h-full rounded-2xl bg-[#111613] border border-[#222E26] hover:border-[#C7FF55]/50 transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-lg"
-                >
-                  <div>
-                    {/* Image Container with Smooth Zoom on Hover */}
-                    <div className="relative aspect-video w-full overflow-hidden bg-[#1A221D]">
-                      <img
-                        src={res.images[0] || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80'}
-                        alt={res.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#111613] via-transparent to-transparent opacity-80" />
-                      
-                      <div className="absolute top-3 left-3 flex items-center gap-2">
-                        <span className="px-2.5 py-1 rounded-full bg-[#080908]/85 backdrop-blur-md border border-[#28362D] text-[10px] font-mono uppercase text-[#C7FF55] font-semibold">
-                          {res.category.split('&')[0]}
-                        </span>
+            {featuredResources.map((res, idx) => {
+              const theme = categoryThemes[idx % categoryThemes.length];
+
+              return (
+                <TiltCard key={res.id} tiltMaxAngle={6} scaleOnHover={1.025}>
+                  <Link
+                    href={`/resources/${res.id}`}
+                    className={`block h-full rounded-3xl ${theme.bgCard} border border-[#E7E1D3] hover:border-[#D0C5B0] transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-warm-md hover:shadow-warm-xl`}
+                  >
+                    <div>
+                      {/* Image Frame */}
+                      <div className="relative aspect-video w-full overflow-hidden p-3 pb-0">
+                        <div className="w-full h-full rounded-2xl overflow-hidden bg-white/50 relative">
+                          <img
+                            src={res.images[0] || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80'}
+                            alt={res.title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                          <div className="absolute top-2.5 left-2.5">
+                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold border shadow-xs ${theme.badgeBg}`}>
+                              {theme.tag}
+                            </span>
+                          </div>
+                          <div className="absolute top-2.5 right-2.5">
+                            <StatusBadge status={res.status} size="sm" />
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="absolute top-3 right-3">
-                        <StatusBadge status={res.status} size="sm" />
-                      </div>
+                      {/* Card Content */}
+                      <div className="p-5 space-y-2.5">
+                        <div className="flex items-center justify-between text-[11px] text-[#7C837C] font-semibold">
+                          <span>📍 {res.location.split(',')[0]}</span>
+                          <span>{res.lead_time_hours}h advance request</span>
+                        </div>
 
-                      <div className="absolute bottom-3 left-3 text-[11px] font-mono text-zinc-400 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#C7FF55]" />
-                        <span>{res.institution_name}</span>
-                      </div>
-                    </div>
+                        <h3 className="font-editorial text-lg font-bold text-[#20231F] group-hover:text-[#4169E1] transition-colors line-clamp-1">
+                          {res.title}
+                        </h3>
 
-                    {/* Card Content */}
-                    <div className="p-5 space-y-3">
-                      <h3 className="text-base font-bold text-[#F4F5EF] group-hover:text-[#C7FF55] transition-colors line-clamp-1">
-                        {res.title}
-                      </h3>
-                      <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-                        {res.description}
-                      </p>
+                        <p className="text-xs text-[#555B53] line-clamp-2 leading-relaxed">
+                          {res.description}
+                        </p>
 
-                      <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-zinc-400">
-                        <span className="px-2 py-0.5 rounded bg-[#18201A] border border-[#243026]">
-                          Lead: {res.lead_time_hours}h
-                        </span>
-                        <span className="px-2 py-0.5 rounded bg-[#18201A] border border-[#243026]">
-                          Max: {Math.round(res.max_duration_minutes / 60)}h
-                        </span>
-                        {res.supervision_required ? (
-                          <span className="px-2 py-0.5 rounded bg-[#352516] border border-[#523A22] text-[#F0BE67]">
-                            Supervision Req
+                        <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-medium text-[#555B53]">
+                          <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
+                            Max {Math.round(res.max_duration_minutes / 60)}h reservation
                           </span>
-                        ) : null}
+                          <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
+                            {res.deposit_amount > 0 ? `$${res.deposit_amount} Deposit` : 'Free to Book'}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Card Bottom CTA */}
-                  <div className="p-5 pt-0">
-                    <div className="pt-3 border-t border-[#1C251F] flex items-center justify-between text-xs">
-                      <span className="text-zinc-500 font-mono text-[11px]">📍 {res.location.split(',')[0]}</span>
-                      <span className="text-[#C7FF55] font-mono font-bold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                        <span>Inspect & Book</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </span>
+                    {/* Card Bottom CTA */}
+                    <div className="p-5 pt-0">
+                      <div className="pt-3 border-t border-black/5 flex items-center justify-between text-xs">
+                        <span className="text-[#7C837C] font-medium text-[11px]">
+                          Managed by {res.owner_name.split(' ')[0]}
+                        </span>
+                        <span className="text-[#4169E1] font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                          <span>Check Availability</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </TiltCard>
-            ))}
+                  </Link>
+                </TiltCard>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 4. HOW IT WORKS: THE 5-STAGE LIFECYCLE PIPELINE */}
-      <section className="py-20 md:py-28 border-b border-[#1E2621] bg-[#0A0E0C]">
+      {/* 4. HOW IT WORKS: SIMPLE, FRIENDLY 4-STAGE JOURNEY */}
+      <section className="py-20 md:py-28 border-b border-[#E7E1D3] bg-[#EFE9DD]/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mb-16 space-y-3">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#C7FF55]">
-              Audited 5-Stage Access Flow
+            <span className="text-xs font-bold uppercase tracking-wider text-[#FF7A45]">
+              Effortless & Responsible Sharing
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#F4F5EF]">
-              How SHARESPACE Works
+            <h2 className="font-editorial text-3xl sm:text-5xl font-bold tracking-tight text-[#20231F]">
+              How ShareSpace Works
             </h2>
-            <p className="text-sm text-zinc-400 leading-relaxed">
-              From credential check to final comparative return inspection, every access transition is backed by a permanent server audit event.
+            <p className="text-sm sm:text-base text-[#555B53] leading-relaxed">
+              No complicated bureaucratic paperwork. Just simple discovery, fair reservations, and verified handovers.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 step: '01',
-                title: 'Discover',
-                subtitle: 'Specifications & Lead-Times',
-                desc: 'Search verified core equipment and laboratories by tool capabilities, safety criteria, and availability windows.'
+                title: 'Discover Gear & Spaces',
+                desc: 'Browse what your campus or community has to offer — from camera setups and 3D printers to soundproof pods.',
+                bg: 'bg-white',
+                numberColor: 'text-[#4169E1]'
               },
               {
                 step: '02',
-                title: 'Request',
-                subtitle: 'Prerequisite Training Gating',
-                desc: 'Submit booking parameters with project purpose. Automated checks guarantee necessary safety credentials.'
+                title: 'Reserve Your Time',
+                desc: 'Pick your hours and tell the owner what you are creating. If a slot is busy, join a transparent fair waitlist.',
+                bg: 'bg-white',
+                numberColor: 'text-[#FF7A45]'
               },
               {
                 step: '03',
-                title: 'Approve',
-                subtitle: 'Custodian Reasoned Review',
-                desc: 'Laboratory custodians review requests, check toolpaths or safety records, and record reasoned approval or denial.'
+                title: 'Check In & Inspect',
+                desc: 'Meet the custodian for a quick two-party checklist so everyone knows the items and condition are in great shape.',
+                bg: 'bg-white',
+                numberColor: 'text-[#8A63D2]'
               },
               {
                 step: '04',
-                title: 'Handover',
-                subtitle: 'Dual-Party Condition Capture',
-                desc: 'Physical check-in records initial physical condition, serials, and included accessories into the permanent ledger.'
-              },
-              {
-                step: '05',
-                title: 'Return',
-                subtitle: 'Comparative Integrity Inspection',
-                desc: 'Return inspection verifies equipment against check-in condition, catching damage or missing items immediately.'
+                title: 'Return with Confidence',
+                desc: 'Drop off the gear when you finish. Condition is verified together, closing the record so the next student can create.',
+                bg: 'bg-white',
+                numberColor: 'text-[#22C55E]'
               }
             ].map((st, i) => (
               <div 
-                key={i} 
-                className="p-5 rounded-2xl bg-[#121714] border border-[#202B24] hover:border-[#C7FF55]/40 transition-all duration-300 space-y-3 relative group"
+                key={i}
+                className="p-7 rounded-3xl bg-white border border-[#E7E1D3] shadow-warm-md hover:shadow-warm-xl transition-all duration-300 space-y-3 relative group"
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-mono font-black text-[#C7FF55]/60 group-hover:text-[#C7FF55] transition-colors">
-                    {st.step}
-                  </span>
-                  <span className="w-2 h-2 rounded-full bg-[#202B24] group-hover:bg-[#C7FF55] transition-colors" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-[#F4F5EF]">{st.title}</h3>
-                  <div className="text-[10px] font-mono text-[#C7FF55] uppercase tracking-wider">{st.subtitle}</div>
-                </div>
-                <p className="text-xs text-zinc-400 leading-relaxed pt-1">{st.desc}</p>
+                <span className={`text-4xl font-editorial font-black ${st.numberColor}`}>
+                  {st.step}
+                </span>
+                <h3 className="text-lg font-bold text-[#20231F] pt-1">{st.title}</h3>
+                <p className="text-xs text-[#555B53] leading-relaxed">{st.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 5. TRUST BY DESIGN & LIVE SIMULATED AUDIT TERMINAL */}
-      <section className="py-20 md:py-28 border-b border-[#1E2621] bg-[#080908]">
+      {/* 5. TRUST & COMMUNITY CONFIDENCE */}
+      <section className="py-20 md:py-28 border-b border-[#E7E1D3] bg-[#F7F5EF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Column: Architectural Principles */}
+            {/* Left: Values */}
             <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#C7FF55]">
-                Accountability Architecture
+              <span className="text-xs font-bold uppercase tracking-wider text-[#4169E1]">
+                Built on Trust & Respect
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#F4F5EF] leading-tight">
-                Trust by Design. <br />
-                Institutional Oversight Preserved.
+              <h2 className="font-editorial text-3xl sm:text-5xl font-bold tracking-tight text-[#20231F] leading-tight">
+                Designed to make sharing safe, simple, and fair.
               </h2>
-              <p className="text-sm text-zinc-400 leading-relaxed">
-                Traditional booking systems treat \$500,000 electron microscopes like meeting rooms. 
-                ShareSpace is built around institutional accountability: mandatory training verification, 
-                bilateral physical handovers, and tamper-resistant audit logs.
+              <p className="text-sm sm:text-base text-[#555B53] leading-relaxed">
+                When equipment is expensive and spaces are in high demand, clarity matters. ShareSpace ensures everyone gets a fair turn and every item is returned just as it was received.
               </p>
 
-              <div className="space-y-4 pt-2">
-                <div className="p-4 rounded-xl bg-[#111713] border border-[#202C23] flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-lg bg-[#18211A] border border-[#29382C] text-[#C7FF55] shrink-0 mt-0.5">
-                    <Shield className="w-4 h-4" />
+              <div className="space-y-3.5 pt-2">
+                <div className="p-4 rounded-2xl bg-white border border-[#E7E1D3] shadow-xs flex items-start gap-3.5">
+                  <div className="w-9 h-9 rounded-xl bg-[#EFF5FF] text-[#4169E1] flex items-center justify-center shrink-0">
+                    <Shield className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-[#F4F5EF]">Automated Eligibility Gating</h4>
-                    <p className="text-xs text-zinc-400 mt-0.5 leading-relaxed">
-                      Seekers cannot request hazardous or delicate equipment without verified qualifications in the institutional database.
+                    <h4 className="text-sm font-bold text-[#20231F]">Safety & Training Checks</h4>
+                    <p className="text-xs text-[#555B53] mt-0.5">
+                      Dangerous or delicate instruments require verified orientation first, ensuring safety for everyone.
                     </p>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#111713] border border-[#202C23] flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-lg bg-[#18211A] border border-[#29382C] text-[#C7FF55] shrink-0 mt-0.5">
-                    <FileCheck className="w-4 h-4" />
+                <div className="p-4 rounded-2xl bg-white border border-[#E7E1D3] shadow-xs flex items-start gap-3.5">
+                  <div className="w-9 h-9 rounded-xl bg-[#FFF0E8] text-[#FF7A45] flex items-center justify-center shrink-0">
+                    <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-[#F4F5EF]">Comparative Condition Reporting</h4>
-                    <p className="text-xs text-zinc-400 mt-0.5 leading-relaxed">
-                      Check-in and return inspections capture itemized accessory tallies and condition notes to resolve disputes objectively.
+                    <h4 className="text-sm font-bold text-[#20231F]">Transparent Waitlists (No Favoritism)</h4>
+                    <p className="text-xs text-[#555B53] mt-0.5">
+                      If an item is booked, queue in order. You are automatically promoted when a spot opens.
                     </p>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#111713] border border-[#202C23] flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-lg bg-[#18211A] border border-[#29382C] text-[#C7FF55] shrink-0 mt-0.5">
-                    <Database className="w-4 h-4" />
+                <div className="p-4 rounded-2xl bg-white border border-[#E7E1D3] shadow-xs flex items-start gap-3.5">
+                  <div className="w-9 h-9 rounded-xl bg-[#EDFBF3] text-[#22C55E] flex items-center justify-center shrink-0">
+                    <FileCheck className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-[#F4F5EF]">Immutable Audit History</h4>
-                    <p className="text-xs text-zinc-400 mt-0.5 leading-relaxed">
-                      Every approval, rejection rationale, status transition, and administrative intervention is permanently logged.
+                    <h4 className="text-sm font-bold text-[#20231F]">Two-Party Condition Inspections</h4>
+                    <p className="text-xs text-[#555B53] mt-0.5">
+                      Both parties confirm the condition at check-in and checkout, eliminating disputes over pre-existing wear.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Architectural Tenet & Live Ledger Terminal */}
+            {/* Right: Core Principle Card */}
             <div className="lg:col-span-6 space-y-6">
-              {/* Product Principle Quote */}
-              <div className="p-7 rounded-2xl bg-gradient-to-br from-[#121814] to-[#0A0D0B] border border-[#253328] space-y-4 shadow-xl">
-                <span className="text-[10px] font-mono uppercase text-[#C7FF55] tracking-widest">
-                  Core Product Principle
+              <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#4169E1] to-[#2546B0] text-white space-y-6 shadow-color-cobalt">
+                <span className="text-[11px] font-sans uppercase tracking-widest text-[#FFD76A] font-bold">
+                  The ShareSpace Principle
                 </span>
-                <blockquote className="text-xl sm:text-2xl font-mono text-[#F4F5EF] leading-snug border-l-2 border-[#C7FF55] pl-4">
-                  "EVERY RESOURCE HAS A STORY.<br />
-                  EVERY BOOKING HAS A RECORD.<br />
-                  EVERY ACCESS DECISION HAS A REASON."
+                <blockquote className="font-editorial text-2xl sm:text-3xl font-bold leading-snug">
+                  "Every resource has a story.<br />
+                  Every booking has a record.<br />
+                  Every access decision has a reason."
                 </blockquote>
-              </div>
+                <p className="text-xs text-blue-100 leading-relaxed font-sans">
+                  We believe institutional creativity flourishes when resources are shared openly and cared for responsibly by the whole community.
+                </p>
 
-              {/* Simulated Live Ledger Terminal Component */}
-              <div className="rounded-2xl bg-[#0B0F0D] border border-[#202B24] p-5 font-mono text-xs shadow-2xl space-y-3">
-                <div className="flex items-center justify-between pb-3 border-b border-[#1C251F] text-zinc-400">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#C7FF55] animate-pulse" />
-                    <span className="text-[#F4F5EF] font-bold">SHA-256 LEDGER AUDIT FEED</span>
-                  </div>
-                  <span className="text-[10px] text-zinc-500">LIVE SERVER EVENT BUS</span>
-                </div>
-
-                <div className="space-y-2 text-[11px]">
-                  <div className="p-2.5 rounded bg-[#111713] border border-[#1A231C] space-y-1">
-                    <div className="flex items-center justify-between text-zinc-400">
-                      <span className="text-[#C7FF55] font-bold">BOOKING_APPROVED</span>
-                      <span className="text-[10px] text-zinc-500">ref: BK-9128 • 10m ago</span>
-                    </div>
-                    <p className="text-zinc-300">
-                      Dr. Aris Thorne approved reservation for Elena Rostova. Reason: "Laser safety clearance verified."
-                    </p>
-                  </div>
-
-                  <div className="p-2.5 rounded bg-[#111713] border border-[#1A231C] space-y-1">
-                    <div className="flex items-center justify-between text-zinc-400">
-                      <span className="text-[#38BDF8] font-bold">HANDOVER_CHECKIN_COMPLETE</span>
-                      <span className="text-[10px] text-zinc-500">ref: HO-4421 • 32m ago</span>
-                    </div>
-                    <p className="text-zinc-300">
-                      Bilateral physical inspection recorded: All 4 lens adapters present. Baseline condition verified.
-                    </p>
-                  </div>
-
-                  <div className="p-2.5 rounded bg-[#111713] border border-[#1A231C] space-y-1">
-                    <div className="flex items-center justify-between text-zinc-400">
-                      <span className="text-[#F0BE67] font-bold">FIFO_WAITLIST_PROMOTED</span>
-                      <span className="text-[10px] text-zinc-500">ref: WL-1089 • 1h ago</span>
-                    </div>
-                    <p className="text-zinc-300">
-                      Slot cancelled by user. Next eligible seeker in queue automatically promoted with 4h claim window.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-2 flex items-center justify-between text-[10px] text-zinc-500 border-t border-[#1C251F]">
-                  <span>HASH CHAIN VALIDATED: OK</span>
-                  <Link href="/audit" className="text-[#C7FF55] hover:underline flex items-center gap-1">
-                    <span>Inspect Full Ledger</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </Link>
+                <div className="pt-4 border-t border-white/20 flex flex-wrap gap-4 text-xs font-semibold">
+                  <span className="px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-md">
+                    Max 3 Active Bookings / Student
+                  </span>
+                  <span className="px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-md">
+                    100% Genuine Inventory
+                  </span>
                 </div>
               </div>
             </div>
@@ -438,34 +406,32 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 6. FINAL IMMERSIVE CALL TO ACTION */}
-      <section className="py-24 bg-gradient-to-t from-[#111713] via-[#080908] to-[#080908] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_100%,rgba(199,255,85,0.08),transparent_80%)] pointer-events-none" />
-
-        <div className="relative max-w-4xl mx-auto px-4 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#141C16] border border-[#27352B] text-xs font-mono text-[#C7FF55]">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Ready for University & Institutional Deployment</span>
+      {/* 6. CALL TO ACTION */}
+      <section className="py-24 bg-[#EFE9DD]/50 relative overflow-hidden text-center">
+        <div className="max-w-4xl mx-auto px-4 space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#E7E1D3] text-xs font-bold text-[#FF7A45] shadow-xs">
+            <Heart className="w-3.5 h-3.5 fill-[#FF7A45]" />
+            <span>Join Your Campus Sharing Network</span>
           </div>
 
-          <h2 className="font-editorial text-3xl sm:text-5xl font-bold text-[#F4F5EF] leading-tight">
-            Ready to unlock the idle power of your laboratories?
+          <h2 className="font-editorial text-4xl sm:text-5xl font-bold text-[#20231F] leading-tight">
+            Ready to find what you need to build what you imagine?
           </h2>
 
-          <p className="text-base text-zinc-400 max-w-xl mx-auto leading-relaxed">
-            Join the researchers, laboratory managers, and campus makerspaces sharing high-value equipment with complete accountability.
+          <p className="text-base text-[#555B53] max-w-xl mx-auto leading-relaxed">
+            Browse through cameras, fabrication tools, computing power, and quiet spaces right across your institution.
           </p>
 
           <div className="pt-4 flex flex-wrap justify-center gap-4">
             <Link
               href="/resources"
-              className="px-8 py-4 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-sm hover:bg-[#b5f23d] transition-all shadow-[0_0_25px_rgba(199,255,85,0.25)] hover:shadow-[0_0_35px_rgba(199,255,85,0.4)]"
+              className="px-8 py-4 rounded-full bg-[#4169E1] text-white font-bold text-sm hover:bg-[#3256c9] transition-all shadow-color-cobalt active:scale-95"
             >
-              Browse Available Resources
+              Explore Available Resources
             </Link>
             <Link
               href="/how-it-works"
-              className="px-8 py-4 rounded-xl bg-[#141A16] hover:bg-[#1E2621] border border-[#27352B] text-sm text-[#F4F5EF] font-semibold transition-all"
+              className="px-8 py-4 rounded-full bg-white hover:bg-[#EFE9DD] border border-[#DCD5C4] text-sm text-[#20231F] font-bold transition-all shadow-xs"
             >
               How It Works
             </Link>

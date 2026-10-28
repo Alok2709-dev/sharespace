@@ -170,7 +170,7 @@ export default function OwnerDashboardPage() {
                       <div className="flex items-center gap-3 text-xs text-zinc-500">
                         <span>📍 {res.location}</span>
                         <span>⏱️ {res.lead_time_hours}h lead</span>
-                        {res.deposit_amount > 0 && <span>Deposit: ${res.deposit_amount}</span>}
+                        {res.deposit_amount > 0 && <span>Deposit: ₹{Number(res.deposit_amount).toLocaleString('en-IN')}</span>}
                       </div>
                     </div>
 

@@ -251,7 +251,7 @@ export default function ResourcesPage() {
                 <TiltCard key={res.id} tiltMaxAngle={5} scaleOnHover={1.02}>
                   <Link
                     href={`/resources/${res.id}`}
-                    className={`block h-full rounded-3xl ${style.bg} border border-[#E7E1D3] hover:border-[#D0C5B0] transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-warm-md hover:shadow-warm-xl`}
+                    className={`block w-full h-full cursor-pointer relative z-10 rounded-3xl ${style.bg} border border-[#E7E1D3] hover:border-[#D0C5B0] transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-warm-md hover:shadow-warm-xl`}
                   >
                     <div>
                       {/* Image header */}
@@ -298,7 +298,7 @@ export default function ResourcesPage() {
                           </span>
                           {res.deposit_amount > 0 ? (
                             <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
-                              ${res.deposit_amount} Deposit
+                              ₹{Number(res.deposit_amount).toLocaleString('en-IN')} Deposit
                             </span>
                           ) : (
                             <span className="px-2.5 py-1 rounded-full bg-[#EDFBF3] text-[#1E7E49] border border-[#B7ECCB]">

@@ -21,6 +21,7 @@ import {
   Share2
 } from 'lucide-react';
 import { AIConciergeModal } from '../ai/AIConciergeModal';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -244,6 +245,9 @@ export function Navbar() {
 
           {/* Right Action Cluster */}
           <div className="flex items-center gap-3">
+            {/* Dark Mode Theme Toggle */}
+            <ThemeToggle />
+
             {/* Friendly AI Assistant Button */}
             <button
               onClick={() => setAiOpen(true)}
@@ -405,6 +409,11 @@ export function Navbar() {
             >
               Trust & Safety
             </Link>
+
+            <div className="pt-2 border-t border-[#E7E1D3] flex items-center justify-between py-1">
+              <span className="text-xs font-semibold text-[#555B53]">Theme Mode</span>
+              <ThemeToggle />
+            </div>
             {user && (
               <>
                 <div className="pt-2 border-t border-[#E7E1D3]" />

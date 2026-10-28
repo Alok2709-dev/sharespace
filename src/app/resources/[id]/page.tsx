@@ -321,7 +321,7 @@ export default function ResourceDetailPage() {
                 </span>
                 <div className="flex items-baseline justify-between pt-1">
                   <span className="font-editorial text-3xl font-extrabold text-[#20231F]">
-                    {resource.deposit_amount > 0 ? `$${resource.deposit_amount}` : 'Free Access'}
+                    {resource.deposit_amount > 0 ? `₹${Number(resource.deposit_amount).toLocaleString('en-IN')}` : 'Free Access'}
                   </span>
                   <span className="text-xs text-[#7C837C] font-medium">
                     {resource.deposit_amount > 0 ? 'Refundable Deposit' : 'Campus Funded'}

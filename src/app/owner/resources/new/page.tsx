@@ -283,7 +283,7 @@ export default function NewResourcePage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase text-zinc-500 mb-1.5">Security Deposit ($)</label>
+                <label className="block text-xs font-bold uppercase text-zinc-500 mb-1.5">Security Deposit (₹)</label>
                 <input
                   type="number"
                   value={deposit}

@@ -31,6 +31,22 @@
   --border-strong: #D6CEBC;
 }
 
+html.dark {
+  --background: #101211;
+  --foreground: #F4F6F0;
+
+  --surface-cream: #171B18;
+  --surface-warm-white: #1C221D;
+  --surface-subtle: #141815;
+
+  --color-ink: #F4F6F0;
+  --color-ink-muted: #A3ACA1;
+  --color-ink-faded: #6C766B;
+
+  --border-light: #252D26;
+  --border-strong: #333E35;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
@@ -39,6 +55,120 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Dark Mode Overrides */
+html.dark body {
+  background-color: #101211 !important;
+  color: #F4F6F0 !important;
+}
+
+html.dark header {
+  background-color: rgba(16, 18, 17, 0.92) !important;
+  border-color: #252D26 !important;
+}
+
+html.dark footer {
+  background-color: #0C0E0D !important;
+  border-color: #252D26 !important;
+}
+
+html.dark .bg-\[\#F7F5EF\],
+html.dark .bg-\[\#F7F5EF\]\/92,
+html.dark .bg-\[\#F7F5EF\]\/90 {
+  background-color: #101211 !important;
+}
+
+html.dark .bg-\[\#EFE9DD\],
+html.dark .bg-\[\#EFE9DD\]\/40,
+html.dark .bg-\[\#EFE9DD\]\/60 {
+  background-color: #171B18 !important;
+}
+
+html.dark .bg-\[\#FAF7F2\],
+html.dark .bg-\[\#FBF9F4\] {
+  background-color: #181D19 !important;
+}
+
+html.dark .bg-white {
+  background-color: #1C231E !important;
+}
+
+html.dark .bg-white\/60,
+html.dark .bg-white\/70,
+html.dark .bg-white\/80,
+html.dark .bg-white\/90 {
+  background-color: rgba(28, 35, 30, 0.88) !important;
+}
+
+html.dark .border-\[\#E7E1D3\],
+html.dark .border-\[\#EFE9DD\],
+html.dark .border-\[\#DCD5C4\],
+html.dark .border-\[\#D6CEBC\],
+html.dark .border-\[\#D0C5B0\] {
+  border-color: #252D26 !important;
+}
+
+html.dark .text-\[\#20231F\] {
+  color: #F4F6F0 !important;
+}
+
+html.dark .text-\[\#555B53\] {
+  color: #A3ACA1 !important;
+}
+
+html.dark .text-\[\#7C837C\] {
+  color: #798578 !important;
+}
+
+html.dark .hover\:bg-\[\#EFE9DD\]:hover {
+  background-color: #242D26 !important;
+}
+
+html.dark .hover\:bg-white:hover {
+  background-color: #242D26 !important;
+}
+
+/* Category card background accents in dark mode */
+html.dark .bg-\[\#FFF0E8\] {
+  background-color: #261B15 !important;
+}
+
+html.dark .bg-\[\#F4EFFF\] {
+  background-color: #201A2B !important;
+}
+
+html.dark .bg-\[\#FFF8E6\] {
+  background-color: #251F13 !important;
+}
+
+html.dark .bg-\[\#EEF4FF\] {
+  background-color: #141C2B !important;
+}
+
+html.dark .bg-\[\#EDFBF3\] {
+  background-color: #13241A !important;
+}
+
+html.dark input:not([type="checkbox"]):not([type="radio"]),
+html.dark textarea,
+html.dark select {
+  background-color: #171B18 !important;
+  border-color: #252D26 !important;
+  color: #F4F6F0 !important;
+}
+
+html.dark ::-webkit-scrollbar-track {
+  background: #101211;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #2A332C;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3B473E;
 }
 
 /* 3D Perspective and Transform Utilities */

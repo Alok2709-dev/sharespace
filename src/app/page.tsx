@@ -193,7 +193,7 @@ export default async function HomePage() {
                 <TiltCard key={res.id} tiltMaxAngle={6} scaleOnHover={1.025}>
                   <Link
                     href={`/resources/${res.id}`}
-                    className={`block h-full rounded-3xl ${theme.bgCard} border border-[#E7E1D3] hover:border-[#D0C5B0] transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-warm-md hover:shadow-warm-xl`}
+                    className={`block w-full h-full cursor-pointer relative z-10 rounded-3xl ${theme.bgCard} border border-[#E7E1D3] hover:border-[#D0C5B0] transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-warm-md hover:shadow-warm-xl`}
                   >
                     <div>
                       {/* Image Frame */}
@@ -235,7 +235,7 @@ export default async function HomePage() {
                             Max {Math.round(res.max_duration_minutes / 60)}h reservation
                           </span>
                           <span className="px-2.5 py-1 rounded-full bg-white/80 border border-[#E7E1D3]">
-                            {res.deposit_amount > 0 ? `$${res.deposit_amount} Deposit` : 'Free to Book'}
+                            {res.deposit_amount > 0 ? `₹${Number(res.deposit_amount).toLocaleString('en-IN')} Deposit` : 'Free to Book'}
                           </span>
                         </div>
                       </div>

@@ -4,6 +4,7 @@ import "./globals.css";
 import { DemoSwitcher } from "@/components/layout/DemoSwitcher";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { AmbientSpotlight } from "@/components/ui/AmbientSpotlight";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +31,11 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0B0D0C] text-[#F4F5EF]">
+      <body className="min-h-full flex flex-col bg-[#080908] text-[#F4F5EF] selection:bg-[#C7FF55] selection:text-black">
+        <AmbientSpotlight />
         <DemoSwitcher />
         <Navbar />
-        <main className="flex-1 flex flex-col">{children}</main>
+        <main className="flex-1 flex flex-col relative z-10">{children}</main>
         <Footer />
       </body>
     </html>

@@ -2,7 +2,19 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, Clock, AlertTriangle, ShieldCheck, ShieldAlert, CheckCircle2, Loader2, X } from 'lucide-react';
+import { 
+  Calendar, 
+  Clock, 
+  AlertTriangle, 
+  ShieldCheck, 
+  ShieldAlert, 
+  CheckCircle2, 
+  Loader2, 
+  X,
+  Sparkles,
+  ArrowRight
+} from 'lucide-react';
+import { fireSuccessConfetti } from '@/components/ui/ConfettiCelebration';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -68,6 +80,8 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
       }
 
       setSuccessData(data);
+      // Trigger joyful celebratory confetti
+      fireSuccessConfetti();
       if (onSuccess) onSuccess();
     } catch (err: any) {
       setError(err.message);
@@ -77,18 +91,27 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-xl bg-[#131715] border border-[#2F3933] rounded-xl shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative w-full max-w-xl bg-[#111613] border border-[#27352B] rounded-3xl shadow-2xl overflow-hidden">
+        {/* Ambient Top Glow */}
+        <div className="absolute top-0 right-0 w-64 h-32 bg-[#C7FF55]/10 rounded-full blur-2xl pointer-events-none" />
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#212824] bg-[#191F1B]">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[#1E2721] bg-[#141A16]">
           <div>
-            <h3 className="text-base font-semibold text-[#F4F5EF]">
-              {conflictDetected ? 'Join Transparent Waiting List' : 'Request Resource Reservation'}
-            </h3>
-            <p className="text-xs text-[#A0A69F]">{resource.title}</p>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#C7FF55]" />
+              <h3 className="text-base font-bold text-[#F4F5EF]">
+                {conflictDetected ? 'Join Transparent Waiting List' : 'Request Resource Reservation'}
+              </h3>
+            </div>
+            <p className="text-xs text-[#9BA39B] mt-0.5">{resource.title}</p>
           </div>
-          <button onClick={onClose} className="p-1 rounded text-zinc-400 hover:text-white">
-            <X className="w-5 h-5" />
+          <button 
+            onClick={onClose} 
+            className="p-1.5 rounded-xl bg-[#1A221D] text-zinc-400 hover:text-white border border-[#27352B] transition-colors"
+          >
+            <X className="w-4 h-4" />
           </button>
         </div>
 
@@ -96,18 +119,18 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
         <div className="p-6 max-h-[80vh] overflow-y-auto">
           {successData ? (
             <div className="text-center py-6 space-y-4">
-              <div className="w-12 h-12 rounded-full bg-[#12241A] border border-[#224A33] text-[#78D9A0] flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-6 h-6" />
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#1E2E23] to-[#121E16] border border-[#C7FF55]/30 text-[#C7FF55] flex items-center justify-center mx-auto shadow-[0_0_25px_rgba(199,255,85,0.2)]">
+                <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h4 className="text-lg font-bold text-[#F4F5EF]">
-                {successData.status === 'waitlisted' ? 'Added to Waiting List!' : 'Booking Request Submitted!'}
+              <h4 className="text-xl font-bold text-[#F4F5EF]">
+                {successData.status === 'waitlisted' ? 'Added to Transparent Waitlist!' : 'Reservation Request Recorded!'}
               </h4>
               <p className="text-xs text-zinc-400 max-w-md mx-auto leading-relaxed">
                 {successData.status === 'waitlisted'
                   ? successData.explanation
-                  : `Your reservation request ${successData.refNumber} has been recorded in the persistent ledger and routed to custodian ${resource.owner_name} for approval.`}
+                  : `Your request reference ${successData.refNumber} is logged in the permanent ledger and routed to custodian ${resource.owner_name} for formal authorization.`}
               </p>
-              <div className="p-3 bg-[#0B0D0C] rounded-lg border border-[#212824] inline-block font-mono text-xs text-[#C7FF55]">
+              <div className="p-3 bg-[#0B0F0D] rounded-xl border border-[#202B24] inline-block font-mono text-xs text-[#C7FF55] shadow-inner">
                 Reference: {successData.refNumber}
               </div>
               <div className="pt-4 flex justify-center gap-3">
@@ -116,9 +139,10 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                     onClose();
                     router.push('/my-bookings');
                   }}
-                  className="px-5 py-2 rounded-lg bg-[#C7FF55] text-[#171A17] font-semibold text-xs hover:bg-[#b5f23d] transition-colors"
+                  className="px-6 py-3 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-all shadow-[0_0_20px_rgba(199,255,85,0.25)] flex items-center gap-2"
                 >
-                  View My Bookings &rarr;
+                  <span>View My Bookings</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -126,7 +150,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
             <form onSubmit={e => handleSubmit(e, false)} className="space-y-4">
               {/* Ineligibility Warning if applicable */}
               {!isEligible && (
-                <div className="p-3 rounded-lg bg-red-950/40 border border-red-800 text-xs text-red-200 flex items-start gap-2.5">
+                <div className="p-3.5 rounded-xl bg-red-950/40 border border-red-800 text-xs text-red-200 flex items-start gap-2.5">
                   <ShieldAlert className="w-4 h-4 shrink-0 text-red-400 mt-0.5" />
                   <div>
                     <strong className="block text-red-100 font-semibold mb-0.5">Eligibility Requirement Notice</strong>
@@ -137,8 +161,8 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
 
               {/* Conflict notice with Fair FIFO Queue action */}
               {conflictDetected && (
-                <div className="p-3.5 rounded-lg bg-[#292212] border border-[#4E3E1C] text-xs text-[#F0BE67] space-y-2">
-                  <div className="flex items-center gap-2 font-semibold">
+                <div className="p-4 rounded-xl bg-[#292212] border border-[#4E3E1C] text-xs text-[#F0BE67] space-y-2.5">
+                  <div className="flex items-center gap-2 font-semibold text-amber-200">
                     <AlertTriangle className="w-4 h-4 shrink-0" />
                     <span>Slot Busy: Transparent Fair-Allocation Queue</span>
                   </div>
@@ -150,7 +174,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                     type="button"
                     onClick={e => handleSubmit(e, true)}
                     disabled={loading}
-                    className="w-full mt-2 py-2 rounded bg-[#C7FF55] text-[#171A17] font-bold text-xs hover:bg-[#b5f23d] transition-colors"
+                    className="w-full mt-2 py-2.5 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-colors shadow-sm"
                   >
                     Confirm & Enter Waiting List
                   </button>
@@ -158,7 +182,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
               )}
 
               {error && (
-                <div className="p-3 rounded-lg bg-red-950/40 border border-red-800 text-xs text-red-200">
+                <div className="p-3 rounded-xl bg-red-950/40 border border-red-800 text-xs text-red-200">
                   {error}
                 </div>
               )}
@@ -166,7 +190,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
               {/* Date & Time Selectors */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+                  <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1.5 font-medium">
                     Start Date & Time *
                   </label>
                   <input
@@ -174,11 +198,11 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                     required
                     value={startTime}
                     onChange={e => setStartTime(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-[#0B0D0C] border border-[#2F3933] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090C0A] border border-[#232F26] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+                  <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1.5 font-medium">
                     End Date & Time *
                   </label>
                   <input
@@ -186,18 +210,18 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                     required
                     value={endTime}
                     onChange={e => setEndTime(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-[#0B0D0C] border border-[#2F3933] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090C0A] border border-[#232F26] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
               <div className="text-[11px] text-zinc-500 font-mono">
-                Duration limits: Min {resource.min_duration_minutes}m • Max {resource.max_duration_minutes}m • Required lead-time: {resource.lead_time_hours}h
+                Duration limits: Min {resource.min_duration_minutes}m • Max {resource.max_duration_minutes}m • Lead-time: {resource.lead_time_hours}h
               </div>
 
               {/* Research Project & Purpose */}
               <div>
-                <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+                <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1.5 font-medium">
                   Research Project / Grant (Optional)
                 </label>
                 <input
@@ -205,12 +229,12 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                   value={projectName}
                   onChange={e => setProjectName(e.target.value)}
                   placeholder="e.g. Hypersonic Aero-Structures / NSF Grant #892"
-                  className="w-full px-3 py-2 rounded-lg bg-[#0B0D0C] border border-[#2F3933] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090C0A] border border-[#232F26] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+                <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1.5 font-medium">
                   Intended Research Purpose & Setup Details *
                 </label>
                 <textarea
@@ -219,18 +243,18 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                   value={purpose}
                   onChange={e => setPurpose(e.target.value)}
                   placeholder="Describe your specimen, planned toolpaths, or analytical protocols. Custodians review this for authorization."
-                  className="w-full px-3 py-2 rounded-lg bg-[#0B0D0C] border border-[#2F3933] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#090C0A] border border-[#232F26] text-[#F4F5EF] text-xs focus:border-[#C7FF55] focus:outline-none transition-colors"
                 />
               </div>
 
               {/* Safety Acknowledgment */}
-              <div className="pt-2">
-                <label className="flex items-start gap-2.5 text-xs text-zinc-300 cursor-pointer">
+              <div className="pt-1">
+                <label className="flex items-start gap-2.5 text-xs text-zinc-300 cursor-pointer p-3 rounded-xl bg-[#0E1310] border border-[#1E2721]">
                   <input
                     type="checkbox"
                     checked={agreeSafety}
                     onChange={e => setAgreeSafety(e.target.checked)}
-                    className="mt-0.5 rounded bg-[#0B0D0C] border-[#2F3933] text-[#C7FF55] focus:ring-0"
+                    className="mt-0.5 rounded bg-[#090C0A] border-[#253229] text-[#C7FF55] focus:ring-0"
                   />
                   <span>
                     I acknowledge that I have reviewed the safety instructions, will follow decontamination and cleanup procedures, and agree to physical inspection upon return.
@@ -239,7 +263,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
               </div>
 
               {/* Actions */}
-              <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#212824]">
+              <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#1E2721]">
                 <button
                   type="button"
                   onClick={onClose}
@@ -250,7 +274,7 @@ export function BookingModal({ isOpen, onClose, resource, userEligibility, onSuc
                 <button
                   type="submit"
                   disabled={loading || !isEligible}
-                  className="px-6 py-2.5 rounded-lg bg-[#C7FF55] text-[#171A17] font-semibold text-xs hover:bg-[#b5f23d] transition-colors disabled:opacity-50 flex items-center gap-2"
+                  className="px-6 py-3 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-all disabled:opacity-50 flex items-center gap-2 shadow-[0_0_15px_rgba(199,255,85,0.2)] active:scale-95"
                 >
                   {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Submit Reservation Request</span>

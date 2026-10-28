@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   Calendar, Clock, CheckCircle2, AlertTriangle, ArrowRight,
-  ShieldCheck, Sparkles, Layers, FileText, Bell, Compass
+  ShieldCheck, Sparkles, Layers, FileText, Bell, Compass,
+  ChevronRight, Award, UserCheck
 } from 'lucide-react';
 import { StatusBadge } from '@/components/ui/Badge';
+import { TiltCard } from '@/components/ui/TiltCard';
 
 export default function UserDashboardPage() {
   const router = useRouter();
@@ -50,8 +52,9 @@ export default function UserDashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center py-20 text-zinc-500 font-mono text-xs">
-        Loading personal research portfolio...
+      <div className="flex-1 flex flex-col items-center justify-center py-28 space-y-3 text-zinc-500 font-mono text-xs">
+        <div className="w-8 h-8 rounded-full border-2 border-[#C7FF55] border-t-transparent animate-spin" />
+        <span>Loading personal research portfolio...</span>
       </div>
     );
   }
@@ -62,101 +65,118 @@ export default function UserDashboardPage() {
   const pastBookings = bookings.filter(b => ['returned', 'closed', 'rejected', 'cancelled'].includes(b.status));
 
   return (
-    <div className="flex-1 bg-[#0B0D0C] py-8">
+    <div className="flex-1 bg-[#080908] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* User Welcome Banner */}
-        <div className="p-6 rounded-xl bg-[#131715] border border-[#2F3933] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <img
-              src={user?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80'}
-              alt={user?.full_name}
-              className="w-14 h-14 rounded-full object-cover border border-[#2F3933]"
-            />
-            <div>
-              <span className="text-[10px] font-mono uppercase text-[#C7FF55] tracking-wider">
-                Research Portfolio Node
-              </span>
-              <h1 className="text-xl sm:text-2xl font-bold text-[#F4F5EF]">
+        {/* User Welcome Banner with Architectural Frame */}
+        <div className="p-7 rounded-3xl bg-gradient-to-r from-[#111713] via-[#0E1310] to-[#0A0D0B] border border-[#202C23] relative overflow-hidden shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#C7FF55]/5 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative flex items-center gap-4">
+            <div className="relative">
+              <img
+                src={user?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80'}
+                alt={user?.full_name}
+                className="w-16 h-16 rounded-2xl object-cover border border-[#29382D] shadow-md"
+              />
+              <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#C7FF55] border-2 border-[#0B0D0C] flex items-center justify-center" />
+            </div>
+
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#18211A] border border-[#27352B] text-[10px] font-mono uppercase text-[#C7FF55] font-semibold">
+                <span>Researcher Node</span>
+              </div>
+              <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-[#F4F5EF]">
                 Welcome back, {user?.full_name}
               </h1>
               <p className="text-xs text-zinc-400 font-mono">
-                {user?.department} • Institutional ID: {user?.id}
+                {user?.department} • Node ID: {user?.id}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="relative flex items-center gap-3">
             <Link
               href="/resources"
-              className="px-4 py-2 rounded-lg bg-[#C7FF55] text-[#171A17] font-semibold text-xs hover:bg-[#b5f23d] transition-colors flex items-center gap-1.5"
+              className="px-5 py-3 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(199,255,85,0.2)] active:scale-95"
             >
               <Compass className="w-3.5 h-3.5" />
               <span>Book Equipment</span>
             </Link>
             <Link
               href="/profile"
-              className="px-4 py-2 rounded-lg bg-[#191F1B] hover:bg-[#232B26] border border-[#2F3933] text-xs font-mono text-[#F4F5EF] transition-colors"
+              className="px-4 py-3 rounded-xl bg-[#141A16] hover:bg-[#1E2621] border border-[#27352B] text-xs font-mono text-[#F4F5EF] transition-all"
             >
-              My Credentials
+              Credentials
             </Link>
           </div>
         </div>
 
-        {/* KPI Counter Cards */}
+        {/* KPI Counter Cards in Bento Style */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl bg-[#131715] border border-[#212824] space-y-1">
-            <span className="text-[10px] font-mono uppercase text-zinc-500">Active Allocations</span>
-            <div className="text-2xl font-bold text-[#78D9A0] font-mono">{activeBookings.length}</div>
-            <span className="text-[11px] text-zinc-400">Approved or Checked In</span>
-          </div>
+          <TiltCard tiltMaxAngle={5} scaleOnHover={1.02}>
+            <div className="p-5 rounded-2xl bg-[#111613] border border-[#202B23] space-y-1.5 shadow-lg">
+              <span className="text-[10px] font-mono uppercase text-zinc-500 font-semibold">Active Allocations</span>
+              <div className="text-3xl font-extrabold text-[#78D9A0] font-mono">{activeBookings.length}</div>
+              <span className="text-[11px] text-zinc-400 block font-sans">Approved or Checked In</span>
+            </div>
+          </TiltCard>
 
-          <div className="p-4 rounded-xl bg-[#131715] border border-[#212824] space-y-1">
-            <span className="text-[10px] font-mono uppercase text-zinc-500">Pending Review</span>
-            <div className="text-2xl font-bold text-[#F0BE67] font-mono">{pendingBookings.length}</div>
-            <span className="text-[11px] text-zinc-400">Awaiting Custodian</span>
-          </div>
+          <TiltCard tiltMaxAngle={5} scaleOnHover={1.02}>
+            <div className="p-5 rounded-2xl bg-[#111613] border border-[#202B23] space-y-1.5 shadow-lg">
+              <span className="text-[10px] font-mono uppercase text-zinc-500 font-semibold">Pending Review</span>
+              <div className="text-3xl font-extrabold text-[#F0BE67] font-mono">{pendingBookings.length}</div>
+              <span className="text-[11px] text-zinc-400 block font-sans">Awaiting Custodian</span>
+            </div>
+          </TiltCard>
 
-          <div className="p-4 rounded-xl bg-[#131715] border border-[#212824] space-y-1">
-            <span className="text-[10px] font-mono uppercase text-zinc-500">Waitlisted Slots</span>
-            <div className="text-2xl font-bold text-[#C0A8F8] font-mono">{waitlistedBookings.length}</div>
-            <span className="text-[11px] text-zinc-400">FIFO Queue Tracking</span>
-          </div>
+          <TiltCard tiltMaxAngle={5} scaleOnHover={1.02}>
+            <div className="p-5 rounded-2xl bg-[#111613] border border-[#202B23] space-y-1.5 shadow-lg">
+              <span className="text-[10px] font-mono uppercase text-zinc-500 font-semibold">Waitlisted Slots</span>
+              <div className="text-3xl font-extrabold text-[#38BDF8] font-mono">{waitlistedBookings.length}</div>
+              <span className="text-[11px] text-zinc-400 block font-sans">FIFO Queue Position</span>
+            </div>
+          </TiltCard>
 
-          <div className="p-4 rounded-xl bg-[#131715] border border-[#212824] space-y-1">
-            <span className="text-[10px] font-mono uppercase text-zinc-500">Completed Sessions</span>
-            <div className="text-2xl font-bold text-[#F4F5EF] font-mono">{pastBookings.length}</div>
-            <span className="text-[11px] text-zinc-400">Audited in Ledger</span>
-          </div>
+          <TiltCard tiltMaxAngle={5} scaleOnHover={1.02}>
+            <div className="p-5 rounded-2xl bg-[#111613] border border-[#202B23] space-y-1.5 shadow-lg">
+              <span className="text-[10px] font-mono uppercase text-zinc-500 font-semibold">Completed Sessions</span>
+              <div className="text-3xl font-extrabold text-[#F4F5EF] font-mono">{pastBookings.length}</div>
+              <span className="text-[11px] text-zinc-400 block font-sans">Audited in Ledger</span>
+            </div>
+          </TiltCard>
         </div>
 
         {/* Main Content 2-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left: Active Bookings & Waitlist */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-8 space-y-6">
             {/* Active / Checked-In Section */}
-            <div className="p-6 rounded-xl bg-[#131715] border border-[#212824] space-y-4">
+            <div className="p-7 rounded-3xl bg-[#111613] border border-[#202C23] space-y-5 shadow-xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-[#F4F5EF] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#F4F5EF] flex items-center gap-2">
                   <Clock className="w-4 h-4 text-[#C7FF55]" />
                   <span>Current Active Allocations</span>
                 </h3>
                 <Link href="/my-bookings" className="text-xs text-[#C7FF55] hover:underline font-mono">
-                  View All &rarr;
+                  View All ({bookings.length}) &rarr;
                 </Link>
               </div>
 
               {activeBookings.length === 0 ? (
-                <div className="p-6 text-center text-zinc-500 text-xs bg-[#0B0D0C] rounded-lg border border-[#212824]">
-                  You have no active equipment checked out or upcoming approved reservations today.
+                <div className="p-8 text-center text-zinc-500 text-xs bg-[#090C0A] rounded-2xl border border-[#1C251F] space-y-2">
+                  <p>You have no active equipment checked out or upcoming approved reservations today.</p>
+                  <Link href="/resources" className="text-[#C7FF55] hover:underline inline-block font-mono text-[11px]">
+                    Browse catalog to request a slot &rarr;
+                  </Link>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {activeBookings.map(b => (
                     <div
                       key={b.id}
-                      className="p-4 rounded-lg bg-[#0B0D0C] border border-[#212824] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      className="p-5 rounded-2xl bg-[#0B0F0D] border border-[#1E2721] flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors hover:border-[#2A372E]"
                     >
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
                           <span className="font-mono text-xs text-[#C7FF55] font-semibold">{b.booking_reference}</span>
                           <StatusBadge status={b.status} size="sm" />
@@ -171,9 +191,10 @@ export default function UserDashboardPage() {
                       <div className="shrink-0 flex items-center gap-2">
                         <Link
                           href={`/bookings/${b.id}`}
-                          className="px-3 py-1.5 rounded bg-[#191F1B] hover:bg-[#232B26] border border-[#2F3933] text-xs font-mono text-[#F4F5EF] transition-colors"
+                          className="px-4 py-2 rounded-xl bg-[#151D18] hover:bg-[#1E2621] border border-[#27352B] text-xs font-mono text-[#F4F5EF] transition-colors flex items-center gap-1.5"
                         >
-                          Handover & Details &rarr;
+                          <span>Inspection Checklist</span>
+                          <ChevronRight className="w-3.5 h-3.5 text-[#C7FF55]" />
                         </Link>
                       </div>
                     </div>
@@ -184,19 +205,19 @@ export default function UserDashboardPage() {
 
             {/* Waiting List Activity */}
             {waitlistedBookings.length > 0 && (
-              <div className="p-6 rounded-xl bg-[#131715] border border-[#42385C] space-y-4">
-                <h3 className="text-sm font-bold text-[#C0A8F8] flex items-center gap-2">
+              <div className="p-7 rounded-3xl bg-[#111613] border border-[#202C23] space-y-4 shadow-xl">
+                <h3 className="text-base font-bold text-[#38BDF8] flex items-center gap-2">
                   <Layers className="w-4 h-4" />
                   <span>Transparent Waiting List Tracking ({waitlistedBookings.length})</span>
                 </h3>
 
                 <div className="space-y-3">
                   {waitlistedBookings.map(wb => (
-                    <div key={wb.id} className="p-4 rounded-lg bg-[#0B0D0C] border border-[#29233B] space-y-2">
+                    <div key={wb.id} className="p-4 rounded-2xl bg-[#0B0F0D] border border-[#1E2721] space-y-2">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-[#F4F5EF]">{wb.resource_title}</span>
-                        <span className="px-2 py-0.5 rounded bg-[#42385C]/40 text-[#C0A8F8] font-mono text-xs font-bold border border-[#42385C]">
-                          Position #{wb.waitlist_position || 1} in Queue
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] font-mono text-xs font-bold border border-[#38BDF8]/30">
+                          Position #{wb.waitlist_position || 1} in FIFO Queue
                         </span>
                       </div>
                       <p className="text-xs text-zinc-300 leading-relaxed font-mono">
@@ -213,11 +234,11 @@ export default function UserDashboardPage() {
           </div>
 
           {/* Right: Notifications & Quick Access */}
-          <div className="space-y-6">
+          <div className="lg:col-span-4 space-y-6">
             {/* Recent Notifications */}
-            <div className="p-6 rounded-xl bg-[#131715] border border-[#212824] space-y-4">
+            <div className="p-7 rounded-3xl bg-[#111613] border border-[#202C23] space-y-4 shadow-xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-[#F4F5EF] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#F4F5EF] flex items-center gap-2">
                   <Bell className="w-4 h-4 text-[#C7FF55]" />
                   <span>Activity Stream</span>
                 </h3>
@@ -231,14 +252,14 @@ export default function UserDashboardPage() {
                   <p className="text-xs text-zinc-500 py-3 text-center">No recent alerts.</p>
                 ) : (
                   notifications.map(n => (
-                    <div key={n.id} className="p-3 rounded-lg bg-[#0B0D0C] border border-[#212824] text-xs space-y-1">
+                    <div key={n.id} className="p-3.5 rounded-2xl bg-[#0B0F0D] border border-[#1E2721] text-xs space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="font-semibold text-[#C7FF55] font-mono text-[11px]">{n.title}</span>
-                        <span className="text-[10px] text-zinc-600 font-mono">
+                        <span className="text-[10px] text-zinc-500 font-mono">
                           {new Date(n.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
-                      <p className="text-[11px] text-zinc-400">{n.message}</p>
+                      <p className="text-[11px] text-zinc-400 leading-relaxed">{n.message}</p>
                     </div>
                   ))
                 )}
@@ -246,21 +267,21 @@ export default function UserDashboardPage() {
             </div>
 
             {/* Fair-Use Rules Info */}
-            <div className="p-6 rounded-xl bg-[#131715] border border-[#212824] space-y-3">
+            <div className="p-7 rounded-3xl bg-[#111613] border border-[#202C23] space-y-3 shadow-xl">
               <span className="text-[10px] font-mono uppercase text-[#C7FF55] tracking-wider font-semibold">
                 Fair-Use Institutional Limits
               </span>
-              <ul className="text-xs text-zinc-400 space-y-2">
+              <ul className="text-xs text-zinc-400 space-y-2.5 font-sans">
                 <li className="flex items-start gap-2">
-                  <span className="text-[#C7FF55]">•</span>
+                  <span className="text-[#C7FF55] font-bold">•</span>
                   <span>Max 3 active reservations concurrent per researcher.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-[#C7FF55]">•</span>
+                  <span className="text-[#C7FF55] font-bold">•</span>
                   <span>12-hour lead time for penalty-free cancellation.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-[#C7FF55]">•</span>
+                  <span className="text-[#C7FF55] font-bold">•</span>
                   <span>Mandatory check-in and checkout condition confirmation.</span>
                 </li>
               </ul>

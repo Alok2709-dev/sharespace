@@ -1,26 +1,28 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, ShieldCheck, CheckCircle2, FileText, Database, Clock, RefreshCw } from 'lucide-react';
+import { ArrowRight, ShieldCheck, CheckCircle2, FileText, Database, Clock, RefreshCw, Sparkles, Terminal } from 'lucide-react';
+import { TiltCard } from '@/components/ui/TiltCard';
 
 export default function HowItWorksPage() {
   return (
-    <div className="flex-1 bg-[#0B0D0C] py-16">
+    <div className="flex-1 bg-[#080908] py-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        {/* Header */}
+        {/* Header with High-End Editorial Presentation */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#C7FF55]">
-            Operational Architecture
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#F4F5EF]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#151D18] border border-[#253328] text-xs font-mono text-[#C7FF55]">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Operational Architecture</span>
+          </div>
+          <h1 className="font-editorial text-4xl sm:text-6xl font-bold tracking-tight text-[#F4F5EF]">
             How SHARESPACE Works
           </h1>
-          <p className="text-base text-zinc-400 leading-relaxed">
+          <p className="text-base text-zinc-400 leading-relaxed font-sans">
             A trusted digital infrastructure that guarantees institutional accountability, equipment safety, and fair access across laboratories, makerspaces, and shared facilities.
           </p>
         </div>
 
-        {/* 5-Stage Step Breakdown */}
-        <div className="space-y-8">
+        {/* 5-Stage Step Breakdown with Elevated 3D Bento Cards */}
+        <div className="space-y-6">
           {[
             {
               num: '01',
@@ -53,34 +55,39 @@ export default function HowItWorksPage() {
               features: ['Side-by-side condition comparison', 'Automated incident generation upon damage or delay', 'Closes lifecycle and opens resource for next scheduled seeker']
             }
           ].map((stage, i) => (
-            <div key={i} className="p-8 rounded-xl bg-[#131715] border border-[#212824] space-y-4">
-              <div className="flex items-center gap-4">
-                <span className="text-3xl font-mono font-black text-[#C7FF55]">{stage.num}</span>
-                <h2 className="text-xl font-bold text-[#F4F5EF]">{stage.title}</h2>
+            <TiltCard key={i} tiltMaxAngle={3} scaleOnHover={1.01}>
+              <div className="p-8 rounded-3xl bg-[#111613] border border-[#202B23] space-y-5 shadow-xl hover:border-[#C7FF55]/40 transition-colors">
+                <div className="flex items-center gap-4">
+                  <span className="text-4xl font-mono font-black text-[#C7FF55]">{stage.num}</span>
+                  <h2 className="text-xl sm:text-2xl font-bold text-[#F4F5EF]">{stage.title}</h2>
+                </div>
+                <p className="text-sm text-zinc-300 leading-relaxed font-sans">{stage.desc}</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-[#1C251F]">
+                  {stage.features.map((feat, fi) => (
+                    <div key={fi} className="flex items-center gap-2 text-xs text-zinc-400">
+                      <CheckCircle2 className="w-4 h-4 text-[#C7FF55] shrink-0" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <p className="text-sm text-zinc-300 leading-relaxed">{stage.desc}</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-[#191F1B]">
-                {stage.features.map((feat, fi) => (
-                  <div key={fi} className="flex items-center gap-2 text-xs text-zinc-400">
-                    <CheckCircle2 className="w-4 h-4 text-[#C7FF55] shrink-0" />
-                    <span>{feat}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            </TiltCard>
           ))}
         </div>
 
         {/* Call to action */}
-        <div className="p-8 rounded-xl bg-gradient-to-r from-[#131715] to-[#191F1B] border border-[#2F3933] text-center space-y-4">
-          <h3 className="text-2xl font-bold text-[#F4F5EF]">Ready to explore equipment?</h3>
-          <p className="text-xs text-zinc-400 max-w-md mx-auto">
-            Browse the active inventory of advanced instrumentation across the institutional network.
+        <div className="p-10 rounded-3xl bg-gradient-to-r from-[#111613] via-[#0E1310] to-[#0A0D0B] border border-[#253328] text-center space-y-4 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#C7FF55]/10 rounded-full blur-3xl pointer-events-none" />
+          <h3 className="font-editorial text-2xl sm:text-3xl font-bold text-[#F4F5EF]">
+            Ready to explore university instrumentation?
+          </h3>
+          <p className="text-sm text-zinc-400 max-w-md mx-auto">
+            Browse the active inventory of advanced core equipment across our institutional network.
           </p>
           <div className="pt-2">
             <Link
               href="/resources"
-              className="px-6 py-3 rounded-lg bg-[#C7FF55] text-[#171A17] font-bold text-xs hover:bg-[#b5f23d] transition-colors inline-flex items-center gap-2"
+              className="px-7 py-3.5 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-all inline-flex items-center gap-2 shadow-[0_0_20px_rgba(199,255,85,0.25)] active:scale-95"
             >
               <span>Explore Marketplace</span>
               <ArrowRight className="w-4 h-4" />

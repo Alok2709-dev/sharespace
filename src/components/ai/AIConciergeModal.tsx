@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Sparkles, X, ArrowRight, ShieldAlert, CheckCircle2, Search, Loader2 } from 'lucide-react';
+import { Sparkles, X, ArrowRight, ShieldAlert, CheckCircle2, Search, Loader2, Bot, Compass } from 'lucide-react';
 
 interface AIConciergeModalProps {
   isOpen: boolean;
@@ -52,36 +52,41 @@ export function AIConciergeModal({ isOpen, onClose }: AIConciergeModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-3xl bg-[#131715] border border-[#2F3933] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative w-full max-w-3xl bg-[#111613] border border-[#27352B] rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        {/* Ambient Top Glow */}
+        <div className="absolute top-0 right-0 w-80 h-40 bg-[#C7FF55]/10 rounded-full blur-3xl pointer-events-none" />
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#212824] bg-[#191F1B]/60">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#C7FF55]/10 border border-[#C7FF55]/30 flex items-center justify-center text-[#C7FF55]">
-              <Sparkles className="w-4 h-4" />
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[#1E2721] bg-[#141A16]">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#1C281F] to-[#121A15] border border-[#2E3E31] flex items-center justify-center text-[#C7FF55] shadow-md">
+              <Sparkles className="w-5 h-5 text-[#C7FF55] animate-pulse" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-[#F4F5EF] flex items-center gap-2">
-                ShareSpace AI Concierge
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[#C7FF55]/20 text-[#C7FF55] border border-[#C7FF55]/30">
-                  Semantic Engine
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-bold text-[#F4F5EF]">
+                  ShareSpace AI Concierge
+                </h2>
+                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[#C7FF55]/15 text-[#C7FF55] border border-[#C7FF55]/30 font-bold">
+                  Semantic Discovery Engine
                 </span>
-              </h2>
-              <p className="text-xs text-[#A0A69F]">
-                Institutional resource discovery matched against real inventory, specs, and safety certifications.
+              </div>
+              <p className="text-xs text-[#9BA39B] mt-0.5">
+                Natural-language capability matching against verified institutional laboratories and specifications.
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+            className="p-1.5 rounded-xl bg-[#1A221D] text-zinc-400 hover:text-white border border-[#27352B] transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Search Input Bar */}
-        <div className="p-6 border-b border-[#212824]">
+        <div className="p-6 border-b border-[#1E2721] bg-[#0E1310]/50 space-y-3">
           <form
             onSubmit={e => {
               e.preventDefault();
@@ -90,19 +95,19 @@ export function AIConciergeModal({ isOpen, onClose }: AIConciergeModalProps) {
             className="flex gap-2"
           >
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-3 w-4 h-4 text-zinc-500" />
+              <Search className="absolute left-4 top-3.5 w-4 h-4 text-zinc-500" />
               <input
                 type="text"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Describe your research project, instrumentation specs, or facility needs..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#0B0D0C] border border-[#2F3933] text-[#F4F5EF] placeholder-zinc-500 text-sm focus:outline-none focus:border-[#C7FF55] transition-colors"
+                className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#090C0A] border border-[#232F26] text-[#F4F5EF] placeholder-zinc-500 text-sm focus:outline-none focus:border-[#C7FF55] transition-colors shadow-inner"
               />
             </div>
             <button
               type="submit"
               disabled={loading || !query.trim()}
-              className="px-5 py-2.5 rounded-lg bg-[#C7FF55] text-[#171A17] font-semibold text-sm hover:bg-[#b5f23d] transition-colors disabled:opacity-50 flex items-center gap-2 shrink-0"
+              className="px-6 py-3 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-all disabled:opacity-50 flex items-center gap-2 shrink-0 shadow-[0_0_15px_rgba(199,255,85,0.2)] active:scale-95"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
               <span>Analyze</span>
@@ -110,8 +115,8 @@ export function AIConciergeModal({ isOpen, onClose }: AIConciergeModalProps) {
           </form>
 
           {/* Sample Chips */}
-          <div className="mt-3">
-            <span className="text-[11px] font-mono uppercase text-zinc-500 block mb-1.5">
+          <div>
+            <span className="text-[10px] font-mono uppercase text-zinc-500 block mb-1.5 font-semibold">
               Or test an inquiry:
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -119,7 +124,7 @@ export function AIConciergeModal({ isOpen, onClose }: AIConciergeModalProps) {
                 <button
                   key={idx}
                   onClick={() => handleSelectSample(sample)}
-                  className="px-2.5 py-1 rounded bg-[#191F1B] hover:bg-[#232B26] border border-[#212824] text-[11px] text-zinc-300 text-left transition-colors"
+                  className="px-3 py-1 rounded-lg bg-[#141B16] hover:bg-[#1E2720] border border-[#202C23] hover:border-[#C7FF55]/40 text-[11px] text-zinc-300 text-left transition-all"
                 >
                   {sample}
                 </button>
@@ -131,26 +136,27 @@ export function AIConciergeModal({ isOpen, onClose }: AIConciergeModalProps) {
         {/* Results Area */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {error && (
-            <div className="p-3 rounded-lg bg-red-950/40 border border-red-800 text-red-200 text-xs">
+            <div className="p-3.5 rounded-xl bg-red-950/40 border border-red-800 text-red-200 text-xs">
               {error}
             </div>
           )}
 
           {loading && (
-            <div className="py-12 flex flex-col items-center justify-center text-center">
-              <Loader2 className="w-8 h-8 text-[#C7FF55] animate-spin mb-3" />
-              <p className="text-sm text-zinc-300 font-medium">Querying Institutional Catalog & Availability...</p>
-              <p className="text-xs text-zinc-500 mt-1">Cross-referencing operating hours and prerequisite eligibility</p>
+            <div className="py-14 flex flex-col items-center justify-center text-center space-y-3">
+              <Loader2 className="w-8 h-8 text-[#C7FF55] animate-spin" />
+              <p className="text-sm text-zinc-200 font-semibold font-mono">Synthesizing Institutional Inventory...</p>
+              <p className="text-xs text-zinc-500 max-w-sm">Cross-referencing operating hours, toolpaths, and prerequisite safety certifications</p>
             </div>
           )}
 
           {!loading && response && (
             <div className="space-y-4">
-              <div className="p-4 rounded-lg bg-[#191F1B] border border-[#2F3933] text-sm text-[#F4F5EF] leading-relaxed">
-                <span className="text-xs font-mono uppercase text-[#C7FF55] block mb-1 font-semibold">
-                  Synthesis & Availability Insight:
+              <div className="p-5 rounded-2xl bg-[#141A16] border border-[#27352B] text-sm text-[#F4F5EF] leading-relaxed shadow-sm">
+                <span className="text-xs font-mono uppercase text-[#C7FF55] block mb-1.5 font-bold flex items-center gap-1.5">
+                  <Bot className="w-3.5 h-3.5" />
+                  <span>Synthesis & Capability Insight:</span>
                 </span>
-                {response.answer}
+                <p className="text-zinc-300 font-sans">{response.answer}</p>
               </div>
 
               <div className="space-y-3">
@@ -161,29 +167,29 @@ export function AIConciergeModal({ isOpen, onClose }: AIConciergeModalProps) {
                 {response.recommendations?.map((rec: any) => (
                   <div
                     key={rec.resourceId}
-                    className="p-4 rounded-lg bg-[#0B0D0C] border border-[#212824] hover:border-[#2F3933] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                    className="p-5 rounded-2xl bg-[#090C0A] border border-[#1E2721] hover:border-[#2C3B2E] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                   >
-                    <div className="space-y-1.5 flex-1">
+                    <div className="space-y-2 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="px-2 py-0.5 rounded bg-[#C7FF55]/10 text-[#C7FF55] border border-[#C7FF55]/20 font-mono text-xs font-bold">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#C7FF55]/15 text-[#C7FF55] border border-[#C7FF55]/30 font-mono text-xs font-bold">
                           {rec.matchScore}% Match
                         </span>
                         <span className="text-xs font-mono text-zinc-400 uppercase">
                           {rec.category} • {rec.resourceType}
                         </span>
                       </div>
-                      <h4 className="text-sm font-semibold text-[#F4F5EF]">{rec.title}</h4>
-                      <p className="text-xs text-zinc-400 leading-relaxed">{rec.matchReason}</p>
-                      <div className="flex items-center gap-4 text-[11px] text-zinc-500 pt-1">
+                      <h4 className="text-base font-bold text-[#F4F5EF]">{rec.title}</h4>
+                      <p className="text-xs text-zinc-400 leading-relaxed font-sans">{rec.matchReason}</p>
+                      <div className="flex items-center gap-4 text-[11px] text-zinc-500 pt-1 font-mono">
                         <span>📍 {rec.location}</span>
                         <span>⏱️ {rec.leadTimeHours}h lead-time</span>
                         {rec.deposit > 0 && <span>💳 ${rec.deposit} deposit</span>}
                       </div>
 
                       {rec.eligibilityStatus === 'requires_action' && rec.missingRequirements?.length > 0 && (
-                        <div className="mt-2 text-[11px] text-[#F0BE67] flex items-center gap-1.5">
+                        <div className="mt-2 text-[11px] text-[#F0BE67] flex items-center gap-1.5 font-mono">
                           <ShieldAlert className="w-3.5 h-3.5 shrink-0" />
-                          <span>Requires training/verification: {rec.missingRequirements.join(', ')}</span>
+                          <span>Requires qualification: {rec.missingRequirements.join(', ')}</span>
                         </div>
                       )}
                     </div>
@@ -192,9 +198,9 @@ export function AIConciergeModal({ isOpen, onClose }: AIConciergeModalProps) {
                       <Link
                         href={`/resources/${rec.resourceId}`}
                         onClick={onClose}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-[#191F1B] hover:bg-[#C7FF55] hover:text-[#171A17] text-xs font-semibold text-[#F4F5EF] border border-[#2F3933] transition-colors"
+                        className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#151D18] hover:bg-[#C7FF55] hover:text-[#080908] text-xs font-bold text-[#F4F5EF] border border-[#27352B] transition-all"
                       >
-                        <span>View Details</span>
+                        <span>View Resource</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
@@ -205,11 +211,11 @@ export function AIConciergeModal({ isOpen, onClose }: AIConciergeModalProps) {
           )}
 
           {!loading && !response && (
-            <div className="py-10 text-center text-zinc-500">
-              <Sparkles className="w-8 h-8 text-zinc-600 mx-auto mb-2" />
-              <p className="text-sm font-medium text-zinc-400">Ask the concierge anything about campus resources.</p>
-              <p className="text-xs text-zinc-600 mt-1">
-                We'll find the right equipment, explain requirements, and check availability.
+            <div className="py-12 text-center text-zinc-500 space-y-2">
+              <Compass className="w-10 h-10 text-zinc-600 mx-auto" />
+              <p className="text-sm font-semibold text-zinc-300">Ask the concierge anything about research facilities.</p>
+              <p className="text-xs text-zinc-500 max-w-sm mx-auto">
+                We'll match your project parameters to available laboratory equipment, explain prerequisites, and check schedules.
               </p>
             </div>
           )}

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, UserCheck, RefreshCw, ChevronDown, Award } from 'lucide-react';
+import { Award, Check, UserCircle, LogOut } from 'lucide-react';
 
 interface DemoUser {
   id: string;
@@ -52,7 +52,6 @@ export function DemoSwitcher() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [expanded, setExpanded] = useState(false);
 
   async function fetchCurrent() {
     try {
@@ -83,7 +82,6 @@ export function DemoSwitcher() {
       console.error(err);
     } finally {
       setLoading(false);
-      setExpanded(false);
     }
   }
 
@@ -100,24 +98,24 @@ export function DemoSwitcher() {
     }
   }
 
-  const activePersona = DEMO_PERSONAS.find(p => p.id === currentUser?.id);
-
   return (
-    <div className="w-full bg-[#131715] border-b border-[#212824] px-4 py-2 text-xs text-[#A0A69F] relative z-50">
+    <div className="w-full bg-[#0E1210] border-b border-[#1E2621] px-4 py-1.5 text-xs text-[#9BA39B] relative z-50">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#C7FF55]/10 text-[#C7FF55] font-mono font-semibold tracking-wider text-[11px] uppercase border border-[#C7FF55]/20">
-            <Award className="w-3 h-3" />
-            Judge Demonstration Control
+        {/* Left Badge Indicator */}
+        <div className="flex items-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#C7FF55]/10 text-[#C7FF55] font-mono font-semibold tracking-wider text-[11px] uppercase border border-[#C7FF55]/25 shadow-sm">
+            <Award className="w-3 h-3 animate-pulse" />
+            <span>Interactive Judge Control</span>
           </span>
-          <span className="hidden sm:inline text-zinc-400">
-            Active Persona: <strong className="text-[#F4F5EF]">{currentUser ? currentUser.full_name : 'Guest (Unauthenticated)'}</strong>
-            {currentUser && <span className="ml-1 text-[#C7FF55] font-mono">[{currentUser.role.toUpperCase()}]</span>}
+          <span className="hidden sm:inline text-zinc-400 font-sans text-xs">
+            Viewing As: <strong className="text-[#F4F5EF]">{currentUser ? currentUser.full_name : 'Guest'}</strong>
+            {currentUser && <span className="ml-1.5 text-[#C7FF55] font-mono text-[11px]">[{currentUser.role.toUpperCase()}]</span>}
           </span>
         </div>
 
+        {/* Persona Switch Buttons */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-zinc-500 mr-1 hidden md:inline">Switch Role:</span>
+          <span className="text-zinc-500 mr-1 hidden lg:inline font-mono text-[11px]">Switch Persona:</span>
           {DEMO_PERSONAS.map(p => {
             const isSelected = currentUser?.id === p.id;
             return (
@@ -125,15 +123,16 @@ export function DemoSwitcher() {
                 key={p.id}
                 onClick={() => handleSwitch(p)}
                 disabled={loading}
-                className={`px-2.5 py-1 rounded transition-all text-xs flex items-center gap-1.5 border ${
+                className={`px-3 py-1 rounded-lg transition-all text-xs flex items-center gap-1.5 border active:scale-95 ${
                   isSelected
-                    ? 'bg-[#C7FF55] text-[#171A17] font-semibold border-[#C7FF55]'
-                    : 'bg-[#191F1B] hover:bg-[#232B26] text-[#F4F5EF] border-[#29332D]'
+                    ? 'bg-[#C7FF55] text-[#080908] font-bold border-[#C7FF55] shadow-[0_0_12px_rgba(199,255,85,0.3)]'
+                    : 'bg-[#151B17] hover:bg-[#1E2621] text-[#E0E5DC] border-[#253129]'
                 }`}
-                title={`${p.name} - ${p.department}`}
+                title={`${p.name} (${p.department})`}
               >
+                {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
                 <span>{p.name.split(' ')[0]}</span>
-                <span className={`text-[10px] font-mono uppercase px-1 rounded ${isSelected ? 'bg-black/20 text-[#171A17]' : 'bg-black/40 text-zinc-400'}`}>
+                <span className={`text-[9px] font-mono uppercase px-1 rounded ${isSelected ? 'bg-black/20 text-[#080908]' : 'bg-black/40 text-zinc-400'}`}>
                   {p.role === 'institution_manager' ? 'Inst Mgr' : p.role}
                 </span>
               </button>
@@ -144,9 +143,11 @@ export function DemoSwitcher() {
             <button
               onClick={handleLogout}
               disabled={loading}
-              className="px-2 py-1 text-zinc-400 hover:text-white transition-colors ml-1 underline"
+              className="px-2.5 py-1 text-zinc-400 hover:text-white transition-colors ml-1 inline-flex items-center gap-1 font-mono text-[11px]"
+              title="Logout to guest mode"
             >
-              Log Out
+              <LogOut className="w-3 h-3" />
+              <span className="hidden sm:inline">Reset</span>
             </button>
           )}
         </div>

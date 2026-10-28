@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   Layers, Clock, AlertTriangle, CheckCircle2, ArrowRight,
-  PlusCircle, FileCheck, Shield, ChevronRight, BarChart3
+  PlusCircle, FileCheck, Shield, ChevronRight, BarChart3,
+  Cpu, Wrench
 } from 'lucide-react';
 import { StatusBadge } from '@/components/ui/Badge';
+import { TiltCard } from '@/components/ui/TiltCard';
 
 export default function OwnerDashboardPage() {
   const router = useRouter();
@@ -64,22 +66,26 @@ export default function OwnerDashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center py-20 text-zinc-500 font-mono text-xs">
-        Loading custodian management node...
+      <div className="flex-1 flex flex-col items-center justify-center py-28 space-y-3 text-zinc-500 font-mono text-xs">
+        <div className="w-8 h-8 rounded-full border-2 border-[#C7FF55] border-t-transparent animate-spin" />
+        <span>Loading custodian operations node...</span>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 bg-[#0B0D0C] py-8">
+    <div className="flex-1 bg-[#080908] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Custodian Header */}
-        <div className="p-6 rounded-xl bg-[#131715] border border-[#2F3933] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <span className="text-[10px] font-mono uppercase text-[#C7FF55] tracking-wider">
-              Resource Custodian Operations Hub
-            </span>
-            <h1 className="text-2xl font-bold text-[#F4F5EF]">
+        <div className="p-7 rounded-3xl bg-gradient-to-r from-[#111613] via-[#0E1310] to-[#0A0D0B] border border-[#202C23] relative overflow-hidden shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#C7FF55]/6 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative space-y-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#18211A] border border-[#28372D] text-xs font-mono text-[#C7FF55]">
+              <Wrench className="w-3.5 h-3.5" />
+              <span>Custodian Operations Hub</span>
+            </div>
+            <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-[#F4F5EF] mt-1">
               {currentUser?.full_name}
             </h1>
             <p className="text-xs text-zinc-400 font-mono">
@@ -87,56 +93,64 @@ export default function OwnerDashboardPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="relative flex items-center gap-3">
             <Link
               href="/owner/resources/new"
-              className="px-4 py-2 rounded-lg bg-[#C7FF55] text-[#171A17] font-semibold text-xs hover:bg-[#b5f23d] transition-colors flex items-center gap-1.5"
+              className="px-5 py-3 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-xs hover:bg-[#b5f23d] transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(199,255,85,0.2)] active:scale-95"
             >
-              <PlusCircle className="w-3.5 h-3.5" />
+              <PlusCircle className="w-4 h-4" />
               <span>List New Resource</span>
             </Link>
             <Link
               href="/owner/requests"
-              className="px-4 py-2 rounded-lg bg-[#191F1B] hover:bg-[#232B26] border border-[#2F3933] text-xs font-mono text-[#F4F5EF] transition-colors"
+              className="px-4 py-3 rounded-xl bg-[#141A16] hover:bg-[#1E2621] border border-[#27352B] text-xs font-mono text-[#F4F5EF] transition-all"
             >
               Review Requests ({requests.length})
             </Link>
           </div>
         </div>
 
-        {/* Operational Metrics */}
+        {/* Operational Metrics in 3D Bento Style */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl bg-[#131715] border border-[#212824] space-y-1">
-            <span className="text-[10px] font-mono uppercase text-zinc-500">Managed Resources</span>
-            <div className="text-2xl font-bold text-[#C7FF55] font-mono">{resources.length}</div>
-            <span className="text-[11px] text-zinc-400">Institutional Listings</span>
-          </div>
+          <TiltCard tiltMaxAngle={5} scaleOnHover={1.02}>
+            <div className="p-5 rounded-2xl bg-[#111613] border border-[#202B23] space-y-1.5 shadow-lg">
+              <span className="text-[10px] font-mono uppercase text-zinc-500 font-semibold">Managed Resources</span>
+              <div className="text-3xl font-extrabold text-[#C7FF55] font-mono">{resources.length}</div>
+              <span className="text-[11px] text-zinc-400 block font-sans">Institutional Listings</span>
+            </div>
+          </TiltCard>
 
-          <div className="p-4 rounded-xl bg-[#131715] border border-[#212824] space-y-1">
-            <span className="text-[10px] font-mono uppercase text-zinc-500">Pending Requests</span>
-            <div className="text-2xl font-bold text-[#F0BE67] font-mono">{requests.length}</div>
-            <span className="text-[11px] text-zinc-400">Requires Decision</span>
-          </div>
+          <TiltCard tiltMaxAngle={5} scaleOnHover={1.02}>
+            <div className="p-5 rounded-2xl bg-[#111613] border border-[#202B23] space-y-1.5 shadow-lg">
+              <span className="text-[10px] font-mono uppercase text-zinc-500 font-semibold">Pending Requests</span>
+              <div className="text-3xl font-extrabold text-[#F0BE67] font-mono">{requests.length}</div>
+              <span className="text-[11px] text-zinc-400 block font-sans">Requires Reasoned Decision</span>
+            </div>
+          </TiltCard>
 
-          <div className="p-4 rounded-xl bg-[#131715] border border-[#212824] space-y-1">
-            <span className="text-[10px] font-mono uppercase text-zinc-500">Active Allocations</span>
-            <div className="text-2xl font-bold text-[#78D9A0] font-mono">{handovers.length}</div>
-            <span className="text-[11px] text-zinc-400">In Handover Lifecycle</span>
-          </div>
+          <TiltCard tiltMaxAngle={5} scaleOnHover={1.02}>
+            <div className="p-5 rounded-2xl bg-[#111613] border border-[#202B23] space-y-1.5 shadow-lg">
+              <span className="text-[10px] font-mono uppercase text-zinc-500 font-semibold">Active Allocations</span>
+              <div className="text-3xl font-extrabold text-[#78D9A0] font-mono">{handovers.length}</div>
+              <span className="text-[11px] text-zinc-400 block font-sans">In Handover Lifecycle</span>
+            </div>
+          </TiltCard>
 
-          <div className="p-4 rounded-xl bg-[#131715] border border-[#212824] space-y-1">
-            <span className="text-[10px] font-mono uppercase text-zinc-500">Handover Protocol</span>
-            <div className="text-2xl font-bold text-[#F4F5EF] font-mono">100%</div>
-            <span className="text-[11px] text-zinc-400">Two-party Verified</span>
-          </div>
+          <TiltCard tiltMaxAngle={5} scaleOnHover={1.02}>
+            <div className="p-5 rounded-2xl bg-[#111613] border border-[#202B23] space-y-1.5 shadow-lg">
+              <span className="text-[10px] font-mono uppercase text-zinc-500 font-semibold">Handover Protocol</span>
+              <div className="text-3xl font-extrabold text-[#38BDF8] font-mono">100%</div>
+              <span className="text-[11px] text-zinc-400 block font-sans">Two-Party Verified</span>
+            </div>
+          </TiltCard>
         </div>
 
         {/* 2-Column Split: Managed Resources vs Urgent Review */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Managed Resources (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Managed Resources (8 cols) */}
+          <div className="lg:col-span-8 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-[#F4F5EF] flex items-center gap-2">
+              <h3 className="text-base font-bold text-[#F4F5EF] flex items-center gap-2">
                 <Layers className="w-4 h-4 text-[#C7FF55]" />
                 <span>Managed Instrumentation & Spaces ({resources.length})</span>
               </h3>
@@ -147,48 +161,47 @@ export default function OwnerDashboardPage() {
 
             <div className="space-y-3">
               {resources.map(res => (
-                <div
-                  key={res.id}
-                  className="p-4 rounded-lg bg-[#131715] border border-[#212824] hover:border-[#2F3933] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-                >
-                  <div className="space-y-1 flex-1">
-                    <div className="flex items-center gap-2">
-                      <StatusBadge status={res.status} size="sm" />
-                      <span className="text-[10px] font-mono uppercase text-zinc-500">{res.category}</span>
+                <TiltCard key={res.id} tiltMaxAngle={3} scaleOnHover={1.01}>
+                  <div className="p-5 rounded-2xl bg-[#111613] border border-[#202B23] hover:border-[#2C3B2E] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-lg">
+                    <div className="space-y-1.5 flex-1">
+                      <div className="flex items-center gap-2">
+                        <StatusBadge status={res.status} size="sm" />
+                        <span className="text-[10px] font-mono uppercase text-zinc-500">{res.category}</span>
+                      </div>
+                      <h4 className="text-base font-bold text-[#F4F5EF]">{res.title}</h4>
+                      <div className="flex items-center gap-3 text-xs text-zinc-400 font-mono">
+                        <span>📍 {res.location}</span>
+                        <span>⏱️ {res.lead_time_hours}h lead</span>
+                        {res.deposit_amount > 0 && <span>Deposit: ${res.deposit_amount}</span>}
+                      </div>
                     </div>
-                    <h4 className="text-sm font-bold text-[#F4F5EF]">{res.title}</h4>
-                    <div className="flex items-center gap-3 text-xs text-zinc-400 font-mono">
-                      <span>📍 {res.location}</span>
-                      <span>⏱️ {res.lead_time_hours}h lead</span>
-                      {res.deposit_amount > 0 && <span>Deposit: ${res.deposit_amount}</span>}
-                    </div>
-                  </div>
 
-                  <div className="shrink-0 flex items-center gap-2">
-                    <Link
-                      href={`/resources/${res.id}`}
-                      className="px-3 py-1.5 rounded bg-[#191F1B] hover:bg-[#232B26] border border-[#2F3933] text-xs font-mono text-zinc-300"
-                    >
-                      View
-                    </Link>
-                    <Link
-                      href={`/owner/resources/${res.id}/edit`}
-                      className="px-3 py-1.5 rounded bg-[#191F1B] hover:bg-[#232B26] border border-[#2F3933] text-xs font-mono text-[#C7FF55]"
-                    >
-                      Configure
-                    </Link>
+                    <div className="shrink-0 flex items-center gap-2">
+                      <Link
+                        href={`/resources/${res.id}`}
+                        className="px-3.5 py-2 rounded-xl bg-[#151D18] hover:bg-[#1E2621] border border-[#27352B] text-xs font-mono text-zinc-300 transition-colors"
+                      >
+                        View
+                      </Link>
+                      <Link
+                        href={`/owner/resources/${res.id}/edit`}
+                        className="px-3.5 py-2 rounded-xl bg-[#151D18] hover:bg-[#1E2621] border border-[#27352B] text-xs font-mono text-[#C7FF55] transition-colors"
+                      >
+                        Configure
+                      </Link>
+                    </div>
                   </div>
-                </div>
+                </TiltCard>
               ))}
             </div>
           </div>
 
-          {/* Pending Requests & Quick Handovers (1 col) */}
-          <div className="space-y-6">
+          {/* Pending Requests & Quick Handovers (4 cols) */}
+          <div className="lg:col-span-4 space-y-6">
             {/* Urgent Requests */}
-            <div className="p-6 rounded-xl bg-[#131715] border border-[#212824] space-y-4">
+            <div className="p-7 rounded-3xl bg-[#111613] border border-[#202C23] space-y-4 shadow-xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-[#F4F5EF] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#F4F5EF] flex items-center gap-2">
                   <Clock className="w-4 h-4 text-[#F0BE67]" />
                   <span>Pending Requests</span>
                 </h3>
@@ -202,7 +215,7 @@ export default function OwnerDashboardPage() {
               ) : (
                 <div className="space-y-3">
                   {requests.slice(0, 3).map(req => (
-                    <div key={req.id} className="p-3 bg-[#0B0D0C] rounded-lg border border-[#212824] space-y-1.5 text-xs font-mono">
+                    <div key={req.id} className="p-3.5 bg-[#090C0A] rounded-xl border border-[#1E2721] space-y-1.5 text-xs font-mono">
                       <div className="flex items-center justify-between">
                         <span className="text-[#C7FF55] font-bold">{req.booking_reference}</span>
                         <span className="text-zinc-500">{req.seeker_name}</span>
@@ -222,17 +235,17 @@ export default function OwnerDashboardPage() {
             </div>
 
             {/* Quick Handovers Trigger */}
-            <div className="p-6 rounded-xl bg-[#131715] border border-[#212824] space-y-3">
-              <h3 className="text-sm font-bold text-[#F4F5EF] flex items-center gap-2">
+            <div className="p-7 rounded-3xl bg-[#111613] border border-[#202C23] space-y-3 shadow-xl">
+              <h3 className="text-base font-bold text-[#F4F5EF] flex items-center gap-2">
                 <FileCheck className="w-4 h-4 text-[#C7FF55]" />
                 <span>Physical Handover Hub</span>
               </h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs text-zinc-400 leading-relaxed font-sans">
                 Record check-in inspection notes, accessory inventory, or process return sign-offs.
               </p>
               <Link
                 href="/owner/handovers"
-                className="w-full py-2 rounded-lg bg-[#191F1B] hover:bg-[#232B26] border border-[#2F3933] text-xs font-mono text-[#C7FF55] block text-center"
+                className="w-full py-3 rounded-xl bg-[#151D18] hover:bg-[#1E2621] border border-[#27352B] text-xs font-mono text-[#C7FF55] block text-center transition-colors"
               >
                 Open Handover Console &rarr;
               </Link>

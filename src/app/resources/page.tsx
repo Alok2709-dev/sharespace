@@ -2,8 +2,22 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Filter, SlidersHorizontal, MapPin, Clock, ShieldAlert, CheckCircle2, ArrowRight } from 'lucide-react';
+import { 
+  Search, 
+  Filter, 
+  SlidersHorizontal, 
+  MapPin, 
+  Clock, 
+  ShieldAlert, 
+  CheckCircle2, 
+  ArrowRight,
+  Sparkles,
+  Layers,
+  X,
+  Compass
+} from 'lucide-react';
 import { StatusBadge } from '@/components/ui/Badge';
+import { TiltCard } from '@/components/ui/TiltCard';
 
 const CATEGORIES = [
   'All',
@@ -57,178 +71,246 @@ export default function ResourcesPage() {
     fetchResources(search);
   }
 
+  function handleClearFilters() {
+    setSearch('');
+    setSelectedCategory('All');
+    setSelectedType('All');
+    fetchResources('');
+  }
+
   return (
-    <div className="flex-1 bg-[#0B0D0C] py-10">
+    <div className="flex-1 bg-[#080908] py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Page Title & Search Bar */}
+        {/* Header Header & Hero Filter Banner */}
+        <div className="p-8 rounded-3xl bg-gradient-to-r from-[#111713] via-[#0E1310] to-[#0A0D0B] border border-[#202C23] relative overflow-hidden shadow-xl">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#C7FF55]/8 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+
+          <div className="relative space-y-6 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#18211B] border border-[#2B3B2E] text-xs font-mono text-[#C7FF55]">
+              <Compass className="w-3.5 h-3.5" />
+              <span>Institutional Discovery Engine</span>
+            </div>
+
+            <h1 className="font-editorial text-3xl sm:text-5xl font-bold tracking-tight text-[#F4F5EF]">
+              Explore Shared Core Equipment
+            </h1>
+
+            <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
+              Find certified research instruments, cleanrooms, and testing facilities. Every resource is backed by institutional custodians, verifiable safety standards, and transparent FIFO queueing.
+            </p>
+
+            {/* Elevated Search Bar */}
+            <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-2 pt-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-3.5 w-4 h-4 text-zinc-400" />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder="Search by instrument name, laboratory, model, or research application..."
+                  className="w-full pl-11 pr-10 py-3 rounded-xl bg-[#090C0A] border border-[#253229] text-[#F4F5EF] text-sm focus:border-[#C7FF55] focus:outline-none placeholder-zinc-500 transition-all shadow-inner"
+                />
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearch('');
+                      fetchResources('');
+                    }}
+                    className="absolute right-3.5 top-3.5 text-zinc-400 hover:text-white"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="px-6 py-3 rounded-xl bg-[#C7FF55] text-[#080908] font-bold text-sm hover:bg-[#b5f23d] transition-all shrink-0 shadow-[0_0_15px_rgba(199,255,85,0.2)] active:scale-95"
+              >
+                Search Catalog
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Filter Controls Row */}
         <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-[#C7FF55]">
-                Shared Institutional Infrastructure
-              </span>
-              <h1 className="text-3xl font-bold tracking-tight text-[#F4F5EF] mt-1">
-                Resource Discovery Marketplace
-              </h1>
-            </div>
-            <div className="text-xs font-mono text-zinc-500">
-              Showing {resources.length} verified listings
-            </div>
+          {/* Horizontal Category Scroll */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none text-xs">
+            {CATEGORIES.map(cat => {
+              const isActive = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-3.5 py-1.5 rounded-full font-medium transition-all shrink-0 border ${
+                    isActive
+                      ? 'bg-[#C7FF55] text-[#080908] border-[#C7FF55] font-semibold shadow-sm'
+                      : 'bg-[#121614] hover:bg-[#1A221C] text-zinc-300 border-[#202923]'
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Search Box */}
-          <form onSubmit={handleSearchSubmit} className="flex gap-2">
-            <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-3 w-4 h-4 text-zinc-500" />
-              <input
-                type="text"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder="Search by instrument name, laboratory, model, or research application..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#131715] border border-[#2F3933] text-[#F4F5EF] text-sm focus:border-[#C7FF55] focus:outline-none placeholder-zinc-500 transition-colors"
-              />
+          {/* Type Filter & Total Count */}
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-[#1C251F]">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono text-zinc-500">Resource Type:</span>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {TYPES.map(t => {
+                  const isActive = selectedType === t;
+                  return (
+                    <button
+                      key={t}
+                      onClick={() => setSelectedType(t)}
+                      className={`px-2.5 py-1 rounded-md text-xs font-mono capitalize transition-all border ${
+                        isActive
+                          ? 'bg-[#1D2720] text-[#C7FF55] border-[#C7FF55]/50'
+                          : 'bg-[#0E1310] hover:bg-[#151D17] text-zinc-400 border-[#1F2922]'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <button
-              type="submit"
-              className="px-5 py-2.5 rounded-lg bg-[#C7FF55] text-[#171A17] font-semibold text-sm hover:bg-[#b5f23d] transition-colors shrink-0"
-            >
-              Filter Search
-            </button>
-          </form>
-        </div>
 
-        {/* Filters Row */}
-        <div className="space-y-3 pb-2 border-b border-[#212824]">
-          {/* Category Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
-            <span className="text-[11px] font-mono uppercase text-zinc-500 mr-1 shrink-0">Category:</span>
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1 rounded-md text-xs whitespace-nowrap transition-all border ${
-                  selectedCategory === cat
-                    ? 'bg-[#C7FF55] text-[#171A17] font-semibold border-[#C7FF55]'
-                    : 'bg-[#131715] hover:bg-[#191F1B] text-zinc-300 border-[#212824]'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Resource Type Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1">
-            <span className="text-[11px] font-mono uppercase text-zinc-500 mr-1 shrink-0">Facility Type:</span>
-            {TYPES.map(t => (
-              <button
-                key={t}
-                onClick={() => setSelectedType(t)}
-                className={`px-2.5 py-0.5 rounded text-[11px] font-mono uppercase transition-all border ${
-                  selectedType === t
-                    ? 'bg-[#191F1B] text-[#C7FF55] border-[#C7FF55]/60 font-semibold'
-                    : 'bg-[#0B0D0C] hover:bg-[#131715] text-zinc-400 border-[#212824]'
-                }`}
-              >
-                {t}
-              </button>
-            ))}
+            <div className="flex items-center gap-3 text-xs font-mono text-zinc-400">
+              <span>{resources.length} resources available</span>
+              {(search || selectedCategory !== 'All' || selectedType !== 'All') && (
+                <button
+                  onClick={handleClearFilters}
+                  className="text-[#C7FF55] hover:underline"
+                >
+                  Reset filters
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Resource Grid */}
+        {/* Resources Grid or Loading State */}
         {loading ? (
-          <div className="py-20 text-center text-zinc-500 font-mono text-xs">
-            Loading institutional equipment registry...
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map(n => (
+              <div key={n} className="rounded-2xl bg-[#111613] border border-[#202C23] p-5 space-y-4 animate-pulse">
+                <div className="aspect-video w-full rounded-xl bg-[#19221C]" />
+                <div className="h-4 w-3/4 rounded bg-[#19221C]" />
+                <div className="h-3 w-full rounded bg-[#19221C]" />
+                <div className="h-3 w-2/3 rounded bg-[#19221C]" />
+              </div>
+            ))}
           </div>
         ) : resources.length === 0 ? (
-          <div className="py-16 text-center space-y-3 bg-[#131715] border border-[#212824] rounded-xl p-8">
-            <p className="text-base text-zinc-300 font-semibold">No matching resources found.</p>
-            <p className="text-xs text-zinc-500 max-w-sm mx-auto">
-              Try adjusting your keyword query or reset category filters to view full institutional inventory.
+          <div className="p-16 rounded-3xl bg-[#0F1411] border border-[#1E2721] text-center space-y-4">
+            <div className="w-12 h-12 rounded-full bg-[#18211B] border border-[#28372D] flex items-center justify-center mx-auto text-zinc-500">
+              <Search className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-[#F4F5EF]">No resources match your criteria</h3>
+            <p className="text-sm text-zinc-400 max-w-md mx-auto">
+              Try adjusting your search terms, clearing category filters, or exploring all resource types.
             </p>
             <button
-              onClick={() => {
-                setSearch('');
-                setSelectedCategory('All');
-                setSelectedType('All');
-                fetchResources('');
-              }}
-              className="mt-2 px-4 py-2 rounded-md bg-[#191F1B] border border-[#2F3933] text-xs text-[#C7FF55] hover:bg-[#232B26]"
+              onClick={handleClearFilters}
+              className="px-5 py-2.5 rounded-xl bg-[#C7FF55] text-[#080908] font-semibold text-xs transition-colors hover:bg-[#b5f23d]"
             >
               Reset All Filters
             </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {resources.map(res => (
-              <Link
-                key={res.id}
-                href={`/resources/${res.id}`}
-                className="group rounded-xl bg-[#131715] border border-[#212824] hover:border-[#2F3933] transition-all overflow-hidden flex flex-col justify-between"
-              >
-                {/* Image header */}
-                <div className="relative h-48 w-full bg-[#0B0D0C] overflow-hidden">
-                  <img
-                    src={res.images[0] || 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&auto=format&fit=crop&q=80'}
-                    alt={res.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-80 group-hover:opacity-100"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2 py-1 rounded bg-[#0B0D0C]/80 backdrop-blur-md text-[10px] font-mono uppercase text-[#C7FF55] border border-white/10 font-medium">
-                      {res.category}
-                    </span>
-                  </div>
-                  <div className="absolute top-3 right-3">
-                    <StatusBadge status={res.status} size="sm" />
-                  </div>
-                </div>
+            {resources.map(res => {
+              const images = JSON.parse(res.images || '[]');
+              const coverImg = images[0] || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80';
 
-                {/* Body Content */}
-                <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                  <div className="space-y-1.5">
-                    <h3 className="text-base font-bold text-[#F4F5EF] group-hover:text-[#C7FF55] transition-colors leading-snug">
-                      {res.title}
-                    </h3>
-                    <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-                      {res.description}
-                    </p>
-                  </div>
+              return (
+                <TiltCard key={res.id} tiltMaxAngle={6} scaleOnHover={1.02}>
+                  <Link
+                    href={`/resources/${res.id}`}
+                    className="block h-full rounded-2xl bg-[#111613] border border-[#202B23] hover:border-[#C7FF55]/50 transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-lg"
+                  >
+                    <div>
+                      {/* Image header */}
+                      <div className="relative aspect-video w-full overflow-hidden bg-[#18201A]">
+                        <img
+                          src={coverImg}
+                          alt={res.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#111613] via-transparent to-transparent opacity-80" />
 
-                  <div className="space-y-2 pt-2 border-t border-[#191F1B]">
-                    <div className="flex items-center gap-1.5 text-xs text-zinc-400">
-                      <MapPin className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
-                      <span className="truncate">{res.location}</span>
-                    </div>
+                        <div className="absolute top-3 left-3">
+                          <span className="px-2.5 py-1 rounded-full bg-[#080908]/85 backdrop-blur-md border border-[#28362D] text-[10px] font-mono uppercase text-[#C7FF55] font-semibold">
+                            {res.category.split('&')[0]}
+                          </span>
+                        </div>
 
-                    <div className="flex items-center justify-between text-[11px] text-zinc-500 font-mono">
-                      <span>⏱️ Lead: {res.lead_time_hours}h</span>
-                      <span>⚖️ {res.min_duration_minutes}-{res.max_duration_minutes}m</span>
-                      {res.deposit_amount > 0 ? (
-                        <span>Deposit: ${res.deposit_amount}</span>
-                      ) : (
-                        <span className="text-[#78D9A0]">No Deposit</span>
-                      )}
-                    </div>
+                        <div className="absolute top-3 right-3">
+                          <StatusBadge status={res.status} size="sm" />
+                        </div>
 
-                    {res.requirements_count > 0 && (
-                      <div className="flex items-center gap-1 text-[11px] text-[#F0BE67] font-mono">
-                        <ShieldAlert className="w-3 h-3" />
-                        <span>{res.requirements_count} required certification(s)</span>
+                        <div className="absolute bottom-3 left-3 text-[11px] font-mono text-zinc-400 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#C7FF55]" />
+                          <span>{res.institution_name}</span>
+                        </div>
                       </div>
-                    )}
-                  </div>
-                </div>
 
-                {/* Footer action bar */}
-                <div className="px-5 py-3 bg-[#191F1B]/60 border-t border-[#212824] flex items-center justify-between text-xs">
-                  <span className="text-zinc-400 font-mono text-[11px]">Custodian: {res.owner_name}</span>
-                  <span className="font-semibold text-[#C7FF55] group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
-                    Reserve Space &rarr;
-                  </span>
-                </div>
-              </Link>
-            ))}
+                      {/* Content */}
+                      <div className="p-5 space-y-2.5">
+                        <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">
+                          <span className="capitalize">{res.resource_type}</span>
+                          <span>Cap: {res.max_capacity} user{res.max_capacity > 1 ? 's' : ''}</span>
+                        </div>
+
+                        <h3 className="text-base font-bold text-[#F4F5EF] group-hover:text-[#C7FF55] transition-colors line-clamp-1">
+                          {res.title}
+                        </h3>
+
+                        <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                          {res.description}
+                        </p>
+
+                        <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-zinc-400">
+                          <span className="px-2 py-0.5 rounded bg-[#18211A] border border-[#243026]">
+                            Lead: {res.lead_time_hours}h
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-[#18211A] border border-[#243026]">
+                            Max: {Math.round(res.max_duration_minutes / 60)}h
+                          </span>
+                          {res.supervision_required ? (
+                            <span className="px-2 py-0.5 rounded bg-[#352516] border border-[#523A22] text-[#F0BE67]">
+                              Supervision Req
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded bg-[#14231A] border border-[#1E382A] text-[#78D9A0]">
+                              Independent
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bottom CTA Row */}
+                    <div className="p-5 pt-0">
+                      <div className="pt-3 border-t border-[#1C251F] flex items-center justify-between text-xs">
+                        <span className="text-zinc-500 font-mono text-[11px] truncate max-w-[150px]">
+                          📍 {res.location.split(',')[0]}
+                        </span>
+                        <span className="text-[#C7FF55] font-mono font-bold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                          <span>View Details</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </TiltCard>
+              );
+            })}
           </div>
         )}
       </div>
